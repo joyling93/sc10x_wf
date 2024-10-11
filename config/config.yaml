@@ -1,0 +1,30 @@
+samples: "config/samples.yaml"
+
+get_cellranger:
+  url: "/public/software/cellranger-6.1.2/"
+
+get_reference:
+  url: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
+
+counts:
+  introns: True
+  n_cells: 3000
+  mem: 190
+
+filter_empty:
+  niters: 30000
+
+qc:
+  pct_counts_mt: 5
+  total_counts: 60000
+  n_genes_by_counts: 2000
+
+dim_reduc:
+  var_thresh: 0.75
+
+cluster:
+  res: 0.5
+  markers:
+    - "YOUR"
+    - "FAVOURITE"
+    - "GENE"

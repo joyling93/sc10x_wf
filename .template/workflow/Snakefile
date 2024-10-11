@@ -1,0 +1,19 @@
+from snakemake.utils import min_version
+
+
+min_version("6.10.0")
+
+
+configfile: "config/config.yaml"
+
+
+# declare https://github.com/joyling93/sc10x_wf as a module
+module single_snake_sequencing:
+    snakefile: 
+        github("joyling93/sc10x_wf", path="workflow/Snakefile", branch="main")
+    config:
+        config
+
+
+# use all rules from https://github.com/joyling93/sc10x_wf
+use rule * from sc10x_wf
