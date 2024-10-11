@@ -20,6 +20,4 @@ include: "rules/counts.smk"
 rule report:
     input:
         "results/multiqc/multiqc.html",
-        expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES),
-        expand("results/filter_empty/{sample}/knee_plot.png", sample=SAMPLES),
-        expand("results/filter_empty/{sample}/tail_end_plot.png", sample=SAMPLES),
+        expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES)
