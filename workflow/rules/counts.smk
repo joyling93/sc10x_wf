@@ -2,7 +2,7 @@
 rule counts:
     input:
         unpack(get_sample_reads),
-        bin=rules.get_cellranger.output.bin,
+        bin=rules.get_cellranger.output.cr,
         genome=rules.get_reference.output.dir,
     output:
         results=directory("results/counts/{sample}/outs/raw_feature_bc_matrix"),
@@ -24,7 +24,7 @@ rule counts:
     threads: 16
     shell:
         """
-        {input.bin} \
+        {input.bin}/cellranger \
         count \
         --nosecondary \
         {params.introns} \

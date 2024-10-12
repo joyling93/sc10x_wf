@@ -3,7 +3,6 @@
 rule get_cellranger:
     output:
         cr=directory("resources/cellranger"),
-        bin="resources/cellranger/cellranger",
     params:
         url=config["get_cellranger"]["url"],
     log:
