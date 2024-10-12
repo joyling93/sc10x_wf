@@ -6,7 +6,7 @@ rule seurat:
     params:
         url=config["get_cellranger"]["url"],
     log:
-        "results/logs/seurat/{sample}.log"",
+        "results/logs/seurat/{sample}.log",
     benchmark:
         "results/benchmarks/seurat/seurat.txt",
     conda:
