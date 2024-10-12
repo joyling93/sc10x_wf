@@ -36,5 +36,5 @@ rule counts:
         --localcores {threads} \
         --localmem {params.mem} \
         &> {log}  && \
-        mv {wildcards.sample} results/counts/{wildcards.sample}
+        mv {wildcards.sample} results/counts/
         """
