@@ -10,12 +10,12 @@ source('/public/home/weiyifan/xzm/workshop/utilis.R')
 
 args = args_[(which(args_=='--args')+1) : length(args_)]
 parser <- ArgumentParser()
-parser$add_argument("--indir", required = TRUE,
-                    help = "Required. The directory '*_feature_bc_matrix'.")
-parser$add_argument("--name", required = TRUE,
-                    help = "Required. Sample name.")
-parser$add_argument("--outdir", default = "./",
-                    help = "The output directory [default %(default)s]")
+# parser$add_argument("--indir", required = TRUE,
+#                     help = "Required. The directory '*_feature_bc_matrix'.")
+# parser$add_argument("--name", required = TRUE,
+#                     help = "Required. Sample name.")
+# parser$add_argument("--outdir", default = "./",
+#                     help = "The output directory [default %(default)s]")
 parser$add_argument("--dims", default = 15,
                     help = "PCA dims to use [default %(default)s]")
 parser$add_argument("--reduction", choices=c('tsne', 'umap'), default = 'tsne',
@@ -27,15 +27,14 @@ parser$add_argument("--species", default = 'rn6',
 parser$add_argument("--logfc", default = 0.25,
                     help = "logfc.threshold [default %(default)s]")
 Args <- parser$parse_args(args=args)
-
 suppressMessages({
     library(Seurat)
     library(tidyverse)
 })
 #source(paste0(scdir, '/utils.R'))
 
-dir.create(Args$outdir, recursive=TRUE)
-setwd(Args$outdir)
+# dir.create(Args$outdir, recursive=TRUE)
+# setwd(Args$outdir)
 
 #features.tsv.gz/genes.tsv
 if(file.exists(paste0(Args$indir ,'/genes.tsv'))){
@@ -47,8 +46,10 @@ if(file.exists(paste0(Args$indir ,'/genes.tsv'))){
                          col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
         mutate(Symbol_uniq=make.unique(Symbol))
 }
-
-data.count <- Read10X(Args$indir)
+outdir <- dirname(snakemake@output[[1]])
+data.count <- Read10X(snakemake@input[[1]])
+sp <- snakemake@wildcards[['sample']]
+print(c(outdir, sp))
 obj <- CreateSeuratObject(counts = data.count,min.cells = 3,min.features = 200)
 
 human_hemo_gene <- unlist(strsplit('HBA1 HBA2 HBB HBD HBE1 HBG1 HBG2 HBM HBQ1 HBZ', ' '))
@@ -56,17 +57,17 @@ mouse_hemo_gene <- unlist(strsplit('Hbb-bt Hbb-bs Hbb-bh2 Hbb-bh1 Hbb-y Hba-x Hb
 hemo_gene <- switch(Args$species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
 
 obj[['percent.mito']] <- PercentageFeatureSet(object = obj, pattern = '^(MT|mt|Mt)-')
-ggsave(paste0(Args$name, '_features_VlnPlot.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
+ggsave(paste0(sp, '_features_VlnPlot.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
 if (!is.na(hemo_gene[1])){
     obj[['percent.hemo']] <- PercentageFeatureSet(object = obj, features=hemo_gene)
 }
 
 write.table(round(do.call("cbind", tapply(obj$percent.mito, Idents(obj), quantile, probs=seq(0,1,0.05))), digits = 3),
-            file=paste0(Args$name, '_mito_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
+            file=paste0(sp, '_mito_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 
 if (!is.na(hemo_gene[1])){
     write.table(round(do.call("cbind", tapply(obj$percent.hemo, Idents(obj), quantile, probs=seq(0,1,0.05))), digits = 3),
-            file=paste0(Args$name, '_hemo_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
+            file=paste0(sp, '_hemo_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 }
 
 filter_cells_tsv <- tibble()
@@ -89,35 +90,35 @@ mitoFilter <- dim(obj)[2]
 
 obj <- subset(obj, subset = nFeature_RNA<5000)
 
-filter_stat_tsv <- tibble(`Sample name`=Args$name,
+filter_stat_tsv <- tibble(`Sample name`=sp,
                            cellNum=format(cellNum,  big.mark=','),
                            umiThreshold=format(umi_threshold, big.mark=','),
                            umiFilter=format(umiFilter, big.mark=','),
                            mitoThreshold=format(round(mito_threshold,2)),
                            mitoFilter=format(mitoFilter, big.mark=','))
 
-write_tsv(filter_stat_tsv, paste0(Args$name, '_filter_stat.tsv'))
-write_tsv(filter_cells_tsv, paste0(Args$name, '_filter_cells.tsv'))
+write_tsv(filter_stat_tsv, paste0(sp, '_filter_stat.tsv'))
+write_tsv(filter_cells_tsv, paste0(sp, '_filter_cells.tsv'))
 
-ggsave(paste0(Args$name, '_features_VlnPlot_filter.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
+ggsave(paste0(sp, '_features_VlnPlot_filter.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
 
 if (!is.na(hemo_gene[1])){
-    ggsave(paste0(Args$name, '_features_VlnPlot2.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.hemo"), ncol = 3), dpi=300)
+    ggsave(paste0(sp, '_features_VlnPlot2.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.hemo"), ncol = 3), dpi=300)
 }
 
 plot1 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 plot2 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "percent.mito")
 if (!is.na(hemo_gene[1])){
     plot3 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "percent.hemo")
-    ggsave(paste0(Args$name, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2, plot3)), dpi=300)
+    ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2, plot3)), dpi=300)
 }else{
-    ggsave(paste0(Args$name, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2)), dpi=300)
+    ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2)), dpi=300)
 }
 
 write.table(do.call("cbind", tapply(obj$nFeature_RNA, Idents(obj), quantile, probs=seq(0,1,0.05))),
-            file=paste0(Args$name, '_nFeature_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
+            file=paste0(sp, '_nFeature_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 write.table(do.call("cbind", tapply(obj$nCount_RNA, Idents(obj), quantile,probs=seq(0,1,0.05))),
-            file=paste0(Args$name, '_nCount_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
+            file=paste0(sp, '_nCount_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 
 dims <- 1:Args$dims
 
@@ -129,10 +130,10 @@ obj <- RunPCA(obj, verbose = FALSE)
 obj <- JackStraw(obj, num.replicate = 100)
 obj <- ScoreJackStraw(obj, dims= dims)
 p0 <- JackStrawPlot(obj, dims = dims)
-ggsave(paste0(Args$name, '_JackStrawPlot.png'), p0, dpi=300)
+ggsave(paste0(sp, '_JackStrawPlot.png'), p0, dpi=300)
 
 p0 <- ElbowPlot(obj)
-ggsave(paste0(Args$name, '_ElbowPlot.png'), p0, dpi=300)
+ggsave(paste0(sp, '_ElbowPlot.png'), p0, dpi=300)
 
 obj <- FindNeighbors(obj, dims = dims)
 
@@ -148,7 +149,7 @@ obj <- FindClusters(obj, resolution = resolution)
 
 res.table  <- obj[[]] %>% summarize(across(starts_with("RNA_snn_res"), n_distinct)) %>% t() %>%
                   as.data.frame() %>% dplyr::rename(cluster_num=V1) %>%rownames_to_column('resolution')
-write_tsv(res.table, paste0(Args$name, '_resolution.xls'))
+write_tsv(res.table, paste0(sp, '_resolution.xls'))
 
 
 cluster_num <- res.table$cluster_num
@@ -171,23 +172,23 @@ obj[['seurat_clusters']] <- obj[[resolution_idents]]
 cellnum_df <- obj[[]] %>% count(!!sym(resolution_idents)) %>%
               dplyr::rename(cluster=!!sym(resolution_idents), cellnum=n) %>%
               mutate(percent=cellnum/sum(cellnum)*100)
-write_tsv(cellnum_df, paste0(Args$name, '_cellnum.xls'))
+write_tsv(cellnum_df, paste0(sp, '_cellnum.xls'))
 #ggplot(cellnum_df, aes(x='sample', y=percent, fill=cluster)) + geom_bar(stat='identity') +  coord_polar(theta = 'y')
 p0 <- ggplot(cellnum_df, aes(x=cluster, y=percent, fill=cluster)) + 
           geom_bar(stat='identity') + 
           xlab('cluster') + ylab('percent (%)') + 
           scale_fill_manual(values=MYCOLOR) +
           theme_classic() + theme(legend.title = element_blank())
-ggsave(paste0(Args$name, '_cellnum.png'), p0, dpi=300)
+ggsave(paste0(sp, '_cellnum.png'), p0, dpi=300)
 
 obj <- RunUMAP(obj, reduction = "pca", dims = dims)
 obj <- RunTSNE(obj, reduction = "pca", dims = dims, check_duplicates = FALSE)
 
 p0 <- DimPlot(obj, reduction = 'umap', cols=MYCOLOR)
-ggsave(paste0(Args$name, '_umap.png'), p0, dpi=300)
+ggsave(paste0(sp, '_umap.png'), p0, dpi=300)
 
 p0 <- DimPlot(obj, reduction = 'tsne', cols=MYCOLOR)
-ggsave(paste0(Args$name, '_tsne.png'), p0, dpi=300)
+ggsave(paste0(sp, '_tsne.png'), p0, dpi=300)
 
 pal <-colorRampPalette(c("blue","cyan", "yellow","red"))
 reduction_loci <- as.data.frame(Embeddings(obj, reduction=Args$reduction))
@@ -195,20 +196,20 @@ reduction_loci <- cbind(reduction_loci, obj[[]])
 
 p <- ggplot(reduction_loci, aes_string(colnames(reduction_loci)[1], colnames(reduction_loci)[2]))
 p1 <- p + geom_point(aes(color=nCount_RNA)) + scale_colour_gradientn(colors=pal(500)) + theme_classic()
-ggsave(paste0(Args$name, '_reduction_umi.png'), plot=p1, dpi=300)
+ggsave(paste0(sp, '_reduction_umi.png'), plot=p1, dpi=300)
 write_tsv(reduction_loci %>% rownames_to_column('cellID'),
-              paste0(Args$name, '_reduction_umi.xls'))
+              paste0(sp, '_reduction_umi.xls'))
 
 obj.markers <- FindAllMarkers(obj, logfc.threshold=Args$logfc, min.pct=Args$minpct) %>% 
                     left_join(id_map, by=c('gene'='Symbol_uniq')) %>% 
                     dplyr::select(-Symbol) %>% dplyr::relocate(gene, Ensembl)
-#write.table(obj.markers, file=paste0(Args$name, '_FindAllMarkers.xls'), row.names=FALSE, sep="\t", quote=FALSE)
-write_tsv(obj.markers, paste0(Args$name, '_FindAllMarkers.xls'))
+#write.table(obj.markers, file=paste0(sp, '_FindAllMarkers.xls'), row.names=FALSE, sep="\t", quote=FALSE)
+write_tsv(obj.markers, paste0(sp, '_FindAllMarkers.xls'))
 
 top9 <- obj.markers %>% group_by(cluster) %>% top_n(n = 9, wt = avg_log2FC)
 obj <- ScaleData(obj, features=top9$gene)
 p2 <- refineDoHeatmap(obj, features = unique(top9$gene), label=FALSE)
-ggsave(paste0(Args$name, '_top9_heatmap.png'), plot=p2, dpi=300)
+ggsave(paste0(sp, '_top9_heatmap.png'), plot=p2, dpi=300)
 
 l0 <- group_split(top9)
 names(l0) <- group_keys(top9)[['cluster']]
@@ -216,16 +217,16 @@ names(l0) <- group_keys(top9)[['cluster']]
 #     tmp0 <- arrangeTop9(
 #                 FeaturePlot(obj, features=l0[[x]][['gene']], reduction=Args$reduction, pt.size=0.8, combine=FALSE)
 #             )
-#     ggsave(paste0(Args$name, '_cluster', x, '_top9_FeaturePlot.png'), plot=tmp0)
+#     ggsave(paste0(sp, '_cluster', x, '_top9_FeaturePlot.png'), plot=tmp0)
 #     tmp1 <- arrangeTop9(
 #                 VlnPlot(obj, features=l0[[x]][['gene']], pt.size=0, cols=MYCOLOR[1:length(levels(Idents(obj)))], combine=FALSE),
 #                 legend.position='none'
 #             )
-#     ggsave(paste0(Args$name, '_cluster', x, '_top9_VlnPlot.png'), plot=tmp1, dpi=300)
+#     ggsave(paste0(sp, '_cluster', x, '_top9_VlnPlot.png'), plot=tmp1, dpi=300)
 # }
 
 #预测多倍体
 #obj <- doublets_pred(obj)
 
-saveRDS(obj, file = paste0(Args$name, "_seurat.rds"))
+saveRDS(obj, file = paste0(sp, "_seurat.rds"))
 

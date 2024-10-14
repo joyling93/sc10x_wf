@@ -11,10 +11,8 @@ rule seurat:
         "results/benchmarks/seurat/{sample}.txt",
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
-    shell:
-        """
-        Rscript /public/home/weiyifan/xzm/workshop/basic_qc/basic_seurat_new.R --indir {input.mtx} --name {wildcards.sample} --outdir results/seurat/{wildcards.sample}
-        """
+    script:
+        "script/basic_seurat_new.R --indir {input.mtx} "
 
 rule integration:
     input: 
