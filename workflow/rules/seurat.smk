@@ -16,7 +16,7 @@ rule seurat:
 
 rule integration:
     input: 
-        sample=SAMPLES
+        samples=SAMPLES
     output:
         rds="results/integration/integrated.rds",
     params:

@@ -74,7 +74,7 @@ if (!dir.exists(paste0(outdir,'/CellsRatio'))){
 }
 
 ob.list <- list()
-samples<-snakemake@input.samples
+samples<-snakemake@input[["samples"]]
 
 numsap=1
 
