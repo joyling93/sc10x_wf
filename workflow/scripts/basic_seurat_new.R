@@ -111,13 +111,13 @@ write_tsv(filter_cells_tsv, paste0(sp, '_filter_cells.tsv'))
 ggsave(paste0(sp, '_features_VlnPlot_filter.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
 
 if (!is.na(hemo_gene[1])){
-    ggsave(paste0(sp, '_features_VlnPlot2.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.hemo"), ncol = 3), dpi=300)
+    ggsave(paste0(sp, '_features_VlnPlot2.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA"), ncol = 3), dpi=300)
 }
 
 plot1 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 plot2 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "percent.mito")
 if (!is.na(hemo_gene[1])){
-    plot3 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "percent.hemo")
+    plot3 <- FeatureScatter(obj, feature1 = "nCount_RNA")
     ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2, plot3)), dpi=300)
 }else{
     ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2)), dpi=300)
