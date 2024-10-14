@@ -12,7 +12,7 @@ rule seurat:
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
     script:
-        "scripts/basic_seurat_new.R"
+        "../scripts/basic_seurat_new.R"
 
 rule integration:
     input: 
@@ -28,4 +28,4 @@ rule integration:
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
     script:
-        "scripts/multi_Seurat.R"
+        "../scripts/multi_Seurat.R"
