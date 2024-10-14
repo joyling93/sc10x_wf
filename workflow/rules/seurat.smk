@@ -18,7 +18,7 @@ rule seurat:
 
 rule integration:
     input: 
-        rds=";".join([f"results/seurat/{sample}/{sample}.rds" for sample in SAMPLES]),
+        rds=[f"results/seurat/{sample}/{sample}.rds" for sample in SAMPLES],
     output:
         rds="results/integration/integrated.rds",
     params:
@@ -29,7 +29,5 @@ rule integration:
         "results/benchmarks/integration/integration.txt",
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
-    shell:
-        """
-        Rscript /public/home/weiyifan/xzm/workshop/integration/multi_Seurat.R --compare {input.rds} --species GRCh38 --outdir results/integration/
-        """
+    script:
+        "scripts/multi_Seurat.R"

@@ -1,7 +1,7 @@
 library(Seurat)
 library(dplyr)
 library(stringr)
-library(argparse)
+#library(argparse)
 library(reshape2)
 library(tidyr)
 library(ggplot2)
@@ -14,9 +14,9 @@ source('/public/home/weiyifan/xzm/workshop/integration/utils_std.R')
 
 parser = ArgumentParser()
 #parser$add_argument("--path", help="/path/to/samples gene bar")
-parser$add_argument("--compare", help="sample;sample;sample,using ; as the split")
-parser$add_argument("--species", help="GRCh38 or mm10")
-parser$add_argument("--outdir", help="outdir of project")
+#parser$add_argument("--compare", help="sample;sample;sample,using ; as the split")
+#parser$add_argument("--species", help="GRCh38 or mm10")
+#parser$add_argument("--outdir", help="outdir of project")
 parser$add_argument("--Nfeatures",help="nfeatures of FindVariableFeatures()", default='2000' )
 parser$add_argument("--prefix", help="prefix of results")
 parser$add_argument("--resolution", help="resolution for cluster",default='0.6')
@@ -31,10 +31,10 @@ args <- parser$parse_args()
 str(args)
 
 #path=args$path
-compare=args$compare
+#compare=args$compare
 ####gene_path=args$gene_path
-species = args$species
-outdir=args$outdir
+species = "GRCh38"
+outdir = "results/integration/"
 prefix=args$prefix
 resolution=args$resolution
 dims=args$dims
@@ -74,7 +74,7 @@ if (!dir.exists(paste0(outdir,'/CellsRatio'))){
 }
 
 ob.list <- list()
-samples<-strsplit(compare,';')[[1]]
+samples<-snakemake@input
 
 numsap=1
 
