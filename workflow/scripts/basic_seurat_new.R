@@ -53,6 +53,7 @@ suppressMessages({
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }
 outdir <- dirname(snakemake@output[[1]])
+setwd(outdir)
 data.count <- Read10X(snakemake@input[[1]])
 sp <- snakemake@wildcards[['sample']]
 print(c(outdir, sp))
@@ -64,17 +65,17 @@ hemo_gene <- switch(species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
 
 obj[['percent.mito']] <- PercentageFeatureSet(object = obj, pattern = '^(MT|mt|Mt)-')
 ggsave(paste0(sp, '_features_VlnPlot.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
-if (!is.na(hemo_gene[1])){
-    obj[['percent.hemo']] <- PercentageFeatureSet(object = obj, features=hemo_gene)
-}
+# if (!is.na(hemo_gene[1])){
+#     obj[['percent.hemo']] <- PercentageFeatureSet(object = obj, features=hemo_gene)
+# }
 
 write.table(round(do.call("cbind", tapply(obj$percent.mito, Idents(obj), quantile, probs=seq(0,1,0.05))), digits = 3),
             file=paste0(sp, '_mito_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 
-if (!is.na(hemo_gene[1])){
-    write.table(round(do.call("cbind", tapply(obj$percent.hemo, Idents(obj), quantile, probs=seq(0,1,0.05))), digits = 3),
-            file=paste0(sp, '_hemo_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
-}
+# if (!is.na(hemo_gene[1])){
+#     write.table(round(do.call("cbind", tapply(obj$percent.hemo, Idents(obj), quantile, probs=seq(0,1,0.05))), digits = 3),
+#             file=paste0(sp, '_hemo_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
+# }
 
 filter_cells_tsv <- tibble()
 # UMI过滤
