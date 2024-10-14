@@ -53,12 +53,11 @@ suppressMessages({
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }
 outdir <- dirname(snakemake@output[[1]])
-setwd(outdir)
 data.count <- Read10X(snakemake@input[[1]])
 sp <- snakemake@wildcards[['sample']]
 print(c(outdir, sp))
 obj <- CreateSeuratObject(counts = data.count,min.cells = 3,min.features = 200)
-
+setwd(outdir)
 human_hemo_gene <- unlist(strsplit('HBA1 HBA2 HBB HBD HBE1 HBG1 HBG2 HBM HBQ1 HBZ', ' '))
 mouse_hemo_gene <- unlist(strsplit('Hbb-bt Hbb-bs Hbb-bh2 Hbb-bh1 Hbb-y Hba-x Hba-a1 Hbq1b Hba-a2 Hbq1a', ' '))
 hemo_gene <- switch(species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
