@@ -15,12 +15,12 @@ include: "rules/common.smk"
 include: "rules/resources.smk"
 include: "rules/qc_reads.smk"
 include: "rules/counts.smk"
-#include: "rules/seurat.smk"
+include: "rules/seurat.smk"
 
 
 rule report:
     input:
         "results/multiqc/multiqc.html",
         expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES),
-#        expand("results/seurat/{sample}/{sample}.rds", sample=SAMPLES),
-#        "results/integration/integrated.rds",
+        expand("results/seurat/{sample}/{sample}.rds", sample=SAMPLES),
+        "results/integration/integrated.rds",
