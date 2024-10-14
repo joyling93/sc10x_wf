@@ -74,12 +74,13 @@ if (!dir.exists(paste0(outdir,'/CellsRatio'))){
 }
 
 ob.list <- list()
-samples<-snakemake@input[["samples"]]
+samples<- list()
 
 numsap=1
 
-for (each in samples){
-  	pbmc <- readRDS(file.path("results/seurat/",each,paste0(each,"_seurat.rds")))
+for (fp in snakemake@input[["rds"]]){
+  	pbmc <- readRDS(fp)
+    each <- str_split(basename(fp),'.rds')[[1]][1]
         if(length(grep('-1',colnames(pbmc@assays$RNA@counts)[1]))){
 	colnames(pbmc@assays$RNA@counts) <- str_replace_all(colnames(pbmc@assays$RNA@counts), '-1',paste0('-',numsap))
         }else{
@@ -97,6 +98,7 @@ for (each in samples){
 	ob <- FindVariableFeatures(ob,  selection.method = "vst",nfeatures = Nfeatures)
 	numsap=numsap+1
 	ob.list[[each]] <- ob
+  samples[[each]] <- each
 }
 
 
