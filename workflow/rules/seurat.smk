@@ -2,7 +2,7 @@ rule seurat:
     input: 
         mtx=rules.counts.output.results,
     output:
-        rds="results/seurat/{sample}/{sample}.rds",
+        rds="results/seurat/{sample}/{sample}_seurat.rds",
     params:
         url=config["get_cellranger"]["url"],
     log:
