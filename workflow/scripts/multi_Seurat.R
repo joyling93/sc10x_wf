@@ -79,7 +79,7 @@ samples<-snakemake@input
 numsap=1
 
 for (each in samples){
-  	pbmc <- readRDS(paste0('results/seurat/',each,'/',each,'.rds'))
+  	pbmc <- readRDS(each)
         if(length(grep('-1',colnames(pbmc@assays$RNA@counts)[1]))){
 	colnames(pbmc@assays$RNA@counts) <- str_replace_all(colnames(pbmc@assays$RNA@counts), '-1',paste0('-',numsap))
         }else{
