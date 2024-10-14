@@ -20,11 +20,11 @@ rule integration:
     input: 
         rds=";".join([f"results/seurat/{sample}/{sample}.rds" for sample in SAMPLES]),
     output:
-        rds="results/integration/integrated.rds,
+        rds="results/integration/integrated.rds",
     params:
         url=config["get_cellranger"]["url"],
     log:
-        "results/logs/integration/integration.log"",
+        "results/logs/integration/integration.log",
     benchmark:
         "results/benchmarks/integration/integration.txt",
     conda:
