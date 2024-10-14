@@ -1,32 +1,38 @@
-suppressPackageStartupMessages({
-    library(argparse)
-})
+# suppressPackageStartupMessages({
+#     library(argparse)
+# })
 
-args_ <- commandArgs(F)
+# args_ <- commandArgs(F)
 scdir<-'/public/home/weiyifan/xzm/workshop'
 #scdir <- normalizePath(dirname(sub('--file=', '', args_[grep('--file', args_)])))
 #KEGG.DIR <- paste0(scdir, '/database/KEGG')
 source('/public/home/weiyifan/xzm/workshop/utilis.R')
-
-args = args_[(which(args_=='--args')+1) : length(args_)]
-parser <- ArgumentParser()
+dims <- 15
+minpct <- 0.1
+species <- 'human'
+logfc<-'0.25'
+minumi <- 3
+mito <- NULL
+resolution <- NULL
+#args = args_[(which(args_=='--args')+1) : length(args_)]
+#parser <- ArgumentParser()
 # parser$add_argument("--indir", required = TRUE,
 #                     help = "Required. The directory '*_feature_bc_matrix'.")
 # parser$add_argument("--name", required = TRUE,
 #                     help = "Required. Sample name.")
 # parser$add_argument("--outdir", default = "./",
 #                     help = "The output directory [default %(default)s]")
-parser$add_argument("--dims", default = 15,
-                    help = "PCA dims to use [default %(default)s]")
-parser$add_argument("--reduction", choices=c('tsne', 'umap'), default = 'tsne',
-                    help = "reduction  [default %(default)s]")
-parser$add_argument("--minpct", default = 0.1,
-                    help = "min.pct  [default %(default)s]")
-parser$add_argument("--species", default = 'rn6',
-                    help = "species")
-parser$add_argument("--logfc", default = 0.25,
-                    help = "logfc.threshold [default %(default)s]")
-Args <- parser$parse_args(args=args)
+# parser$add_argument("--dims", default = 15,
+#                     help = "PCA dims to use [default %(default)s]")
+# parser$add_argument("--reduction", choices=c('tsne', 'umap'), default = 'tsne',
+#                     help = "reduction  [default %(default)s]")
+# parser$add_argument("--minpct", default = 0.1,
+#                     help = "min.pct  [default %(default)s]")
+# parser$add_argument("--species", default = 'rn6',
+#                     help = "species")
+# parser$add_argument("--logfc", default = 0.25,
+#                     help = "logfc.threshold [default %(default)s]")
+# Args <- parser$parse_args(args=args)
 suppressMessages({
     library(Seurat)
     library(tidyverse)
@@ -37,15 +43,15 @@ suppressMessages({
 # setwd(Args$outdir)
 
 #features.tsv.gz/genes.tsv
-if(file.exists(paste0(Args$indir ,'/genes.tsv'))){
-    id_map <- read_delim(paste0(Args$indir ,'/genes.tsv'), delim="\t",
-                         col_names = c('Ensembl', 'Symbol')) %>% 
-        mutate(Symbol_uniq=make.unique(Symbol))
-}else{
-    id_map <- read_delim(paste0(Args$indir ,'/features.tsv.gz'), delim="\t",
-                         col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
-        mutate(Symbol_uniq=make.unique(Symbol))
-}
+# if(file.exists(paste0(Args$indir ,'/genes.tsv'))){
+#     id_map <- read_delim(paste0(Args$indir ,'/genes.tsv'), delim="\t",
+#                          col_names = c('Ensembl', 'Symbol')) %>% 
+#         mutate(Symbol_uniq=make.unique(Symbol))
+# }else{
+#     id_map <- read_delim(paste0(Args$indir ,'/features.tsv.gz'), delim="\t",
+#                          col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
+#         mutate(Symbol_uniq=make.unique(Symbol))
+# }
 outdir <- dirname(snakemake@output[[1]])
 data.count <- Read10X(snakemake@input[[1]])
 sp <- snakemake@wildcards[['sample']]
@@ -54,7 +60,7 @@ obj <- CreateSeuratObject(counts = data.count,min.cells = 3,min.features = 200)
 
 human_hemo_gene <- unlist(strsplit('HBA1 HBA2 HBB HBD HBE1 HBG1 HBG2 HBM HBQ1 HBZ', ' '))
 mouse_hemo_gene <- unlist(strsplit('Hbb-bt Hbb-bs Hbb-bh2 Hbb-bh1 Hbb-y Hba-x Hba-a1 Hbq1b Hba-a2 Hbq1a', ' '))
-hemo_gene <- switch(Args$species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
+hemo_gene <- switch(species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
 
 obj[['percent.mito']] <- PercentageFeatureSet(object = obj, pattern = '^(MT|mt|Mt)-')
 ggsave(paste0(sp, '_features_VlnPlot.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
@@ -72,7 +78,7 @@ if (!is.na(hemo_gene[1])){
 
 filter_cells_tsv <- tibble()
 # UMI过滤
-umi_threshold <- ifelse(is.null(Args$minumi), 0, Args$minumi)
+umi_threshold <- ifelse(is.null(minumi), 0, minumi)
 cellNum <- dim(obj)[2]
 filter_cells_tsv <-  filter_cells_tsv %>% bind_rows(obj[[]] %>% filter(nCount_RNA < umi_threshold))
 obj <- subset(obj, subset = nCount_RNA >= umi_threshold)
@@ -81,7 +87,7 @@ umiFilter <- dim(obj)[2]
 # mito阈值判断
 mt.p <- pnorm(obj$percent.mito, mean = median(obj$percent.mito), sd = mad(obj$percent.mito), lower.tail = FALSE)
 mt.lim <- min(obj$percent.mito[which(p.adjust(mt.p, method = "fdr") < 0.05)])
-mito_threshold <- ifelse(is.null(Args$mito), mt.lim, Args$mito) 
+mito_threshold <- ifelse(is.null(mito), mt.lim, mito) 
 
 # mito过滤
 filter_cells_tsv <- filter_cells_tsv %>% bind_rows(obj[[]] %>% filter(percent.mito > mito_threshold))
@@ -120,7 +126,7 @@ write.table(do.call("cbind", tapply(obj$nFeature_RNA, Idents(obj), quantile, pro
 write.table(do.call("cbind", tapply(obj$nCount_RNA, Idents(obj), quantile,probs=seq(0,1,0.05))),
             file=paste0(sp, '_nCount_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
 
-dims <- 1:Args$dims
+dims <- 1:dims
 
 obj <- NormalizeData(obj, verbose = FALSE)
 obj <- FindVariableFeatures(obj, selection.method = "vst", nfeatures = 2000, verbose = FALSE)
@@ -137,12 +143,12 @@ ggsave(paste0(sp, '_ElbowPlot.png'), p0, dpi=300)
 
 obj <- FindNeighbors(obj, dims = dims)
 
-if (is.null(Args$resolution)){
+if (is.null(resolution)){
     resolution <- seq(0.2, 1.4, 0.3)
     resolution_idents <- 'RNA_snn_res.0.8'
 }else{
-    resolution <- Args$resolution
-    resolution_idents <- paste0('RNA_snn_res.', Args$resolution)
+    resolution <- resolution
+    resolution_idents <- paste0('RNA_snn_res.', resolution)
 }
 
 obj <- FindClusters(obj, resolution = resolution)
@@ -191,7 +197,7 @@ p0 <- DimPlot(obj, reduction = 'tsne', cols=MYCOLOR)
 ggsave(paste0(sp, '_tsne.png'), p0, dpi=300)
 
 pal <-colorRampPalette(c("blue","cyan", "yellow","red"))
-reduction_loci <- as.data.frame(Embeddings(obj, reduction=Args$reduction))
+reduction_loci <- as.data.frame(Embeddings(obj, reduction="tsne"))
 reduction_loci <- cbind(reduction_loci, obj[[]])
 
 p <- ggplot(reduction_loci, aes_string(colnames(reduction_loci)[1], colnames(reduction_loci)[2]))
@@ -200,7 +206,7 @@ ggsave(paste0(sp, '_reduction_umi.png'), plot=p1, dpi=300)
 write_tsv(reduction_loci %>% rownames_to_column('cellID'),
               paste0(sp, '_reduction_umi.xls'))
 
-obj.markers <- FindAllMarkers(obj, logfc.threshold=Args$logfc, min.pct=Args$minpct) %>% 
+obj.markers <- FindAllMarkers(obj, logfc.threshold=logfc, min.pct=minpct) %>% 
                     left_join(id_map, by=c('gene'='Symbol_uniq')) %>% 
                     dplyr::select(-Symbol) %>% dplyr::relocate(gene, Ensembl)
 #write.table(obj.markers, file=paste0(sp, '_FindAllMarkers.xls'), row.names=FALSE, sep="\t", quote=FALSE)
@@ -215,7 +221,7 @@ l0 <- group_split(top9)
 names(l0) <- group_keys(top9)[['cluster']]
 # for (x in names(l0)){
 #     tmp0 <- arrangeTop9(
-#                 FeaturePlot(obj, features=l0[[x]][['gene']], reduction=Args$reduction, pt.size=0.8, combine=FALSE)
+#                 FeaturePlot(obj, features=l0[[x]][['gene']], reduction=tsne, pt.size=0.8, combine=FALSE)
 #             )
 #     ggsave(paste0(sp, '_cluster', x, '_top9_FeaturePlot.png'), plot=tmp0)
 #     tmp1 <- arrangeTop9(
