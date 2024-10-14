@@ -10,7 +10,8 @@ configfile: "config/config.yaml"
 # declare https://github.com/joyling93/sc10x_wf as a module
 module single_snake_sequencing:
     snakefile: 
-        github("joyling93/sc10x_wf", path="workflow/Snakefile", branch="main")
+        "https://github.com/joyling93/sc10x_wf/blob/main/workflow/Snakefile"        
+        #github("joyling93/sc10x_wf", path="workflow/Snakefile", branch="main")
     config:
         config
 
