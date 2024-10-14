@@ -36,5 +36,5 @@ rule counts:
         --localcores {threads} \
         --localmem {params.mem} \
         --output-dir results/counts/{wildcards.sample}
-        &> {log}  && \ 
+        &> {log}
         """
