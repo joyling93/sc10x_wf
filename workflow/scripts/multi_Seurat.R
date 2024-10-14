@@ -74,12 +74,12 @@ if (!dir.exists(paste0(outdir,'/CellsRatio'))){
 }
 
 ob.list <- list()
-samples<-snakemake@input
+samples<-snakemake@input.samples
 
 numsap=1
 
 for (each in samples){
-  	pbmc <- readRDS(each)
+  	pbmc <- readRDS(file.path("results/seurat/",each,paste0(each,"_seurat.rds")))
         if(length(grep('-1',colnames(pbmc@assays$RNA@counts)[1]))){
 	colnames(pbmc@assays$RNA@counts) <- str_replace_all(colnames(pbmc@assays$RNA@counts), '-1',paste0('-',numsap))
         }else{
