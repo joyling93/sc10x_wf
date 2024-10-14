@@ -116,12 +116,12 @@ if (!is.na(hemo_gene[1])){
 
 plot1 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 plot2 <- FeatureScatter(obj, feature1 = "nCount_RNA", feature2 = "percent.mito")
-if (!is.na(hemo_gene[1])){
-    plot3 <- FeatureScatter(obj, feature1 = "nCount_RNA")
-    ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2, plot3)), dpi=300)
-}else{
-    ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2)), dpi=300)
-}
+# if (!is.na(hemo_gene[1])){
+#     plot3 <- FeatureScatter(obj, feature1 = "nCount_RNA")
+#     ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2, plot3)), dpi=300)
+# }else{
+#     ggsave(paste0(sp, '_FeatureScatter.png'), CombinePlots(plots = list(plot1, plot2)), dpi=300)
+# }
 
 write.table(do.call("cbind", tapply(obj$nFeature_RNA, Idents(obj), quantile, probs=seq(0,1,0.05))),
             file=paste0(sp, '_nFeature_quantile.xls'), sep="\t", col.names=FALSE, quote=FALSE)
