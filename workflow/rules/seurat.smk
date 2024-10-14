@@ -8,7 +8,7 @@ rule seurat:
     log:
         "results/logs/seurat/{sample}.log",
     benchmark:
-        "results/benchmarks/seurat/seurat.txt",
+        "results/benchmarks/seurat/{sample}.txt",
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
     shell:
