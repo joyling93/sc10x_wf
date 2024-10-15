@@ -6,9 +6,9 @@ rule counts:
         genome=rules.get_reference.output.dir,
     output:
         results=directory("results/counts/{sample}_cr/outs/filtered_feature_bc_matrix"),
-        mtx="results/counts/{sample}/outs/raw_feature_bc_matrix/matrix.mtx.gz",
+        mtx="results/counts/{sample}_cr/outs/raw_feature_bc_matrix/matrix.mtx.gz",
         html=report(
-            "results/counts/{sample}/outs/web_summary.html",
+            "results/counts/{sample}_cr/outs/web_summary.html",
             caption="../reports/counts.rst",
             category="Cellranger Counts",
             subcategory="{sample}",
