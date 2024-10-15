@@ -258,20 +258,20 @@ p2 <- refineDoHeatmap(obj.integrated, features = unique(top9$gene), label=FALSE,
 
 ggsave(paste0(outdir,'/Marker/integrated_top9_Heatmap.png'), plot=p2, dpi=300)
 
-l0 <- group_split(top9)
-names(l0) <- group_keys(top9)[['cluster']]
-for (x in names(l0)){
-    tmp0 <- arrangeTop9(
-                FeaturePlot(obj.integrated, features=l0[[x]][['gene']], reduction='umap', pt.size=0.8, combine=FALSE)
-            )
-    tmp0 <- tmp0+labs(title = x)
-    ggsave(paste0(outdir,'/Marker/integrated_cluster', x, '_top9_FeaturePlot.png'), plot=tmp0)
-    tmp1 <- arrangeTop9(
-                VlnPlot(obj.integrated, features=l0[[x]][['gene']], pt.size=0, cols=MYCOLOR[1:length(levels(Idents(obj.integrated)))], combine=FALSE),
-                legend.position='none')
-    tmp1 <- tmp1+labs(title = x)
-    ggsave(paste0(outdir,'/Marker/integrated_cluster', x, '_top9_VlnPlot.png'), plot=tmp1, dpi=300)
-}
+# l0 <- group_split(top9)
+# names(l0) <- group_keys(top9)[['cluster']]
+# for (x in names(l0)){
+#     tmp0 <- arrangeTop9(
+#                 FeaturePlot(obj.integrated, features=l0[[x]][['gene']], reduction='umap', pt.size=0.8, combine=FALSE)
+#             )
+#     tmp0 <- tmp0+labs(title = x)
+#     ggsave(paste0(outdir,'/Marker/integrated_cluster', x, '_top9_FeaturePlot.png'), plot=tmp0)
+#     tmp1 <- arrangeTop9(
+#                 VlnPlot(obj.integrated, features=l0[[x]][['gene']], pt.size=0, cols=MYCOLOR[1:length(levels(Idents(obj.integrated)))], combine=FALSE),
+#                 legend.position='none')
+#     tmp1 <- tmp1+labs(title = x)
+#     ggsave(paste0(outdir,'/Marker/integrated_cluster', x, '_top9_VlnPlot.png'), plot=tmp1, dpi=300)
+# }
 
 #saveRDS(obj.integrated, file =paste0(outdir,"/",prefix,"_integrated_seurat.rds"))
 
