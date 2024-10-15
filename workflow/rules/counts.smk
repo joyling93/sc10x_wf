@@ -28,7 +28,7 @@ rule counts:
         count \
         --nosecondary \
         {params.introns} \
-        --id {wildcards.sample} \
+        --id {wildcards.sample}_cr \
         --transcriptome {input.genome} \
         --fastqs data \
         --sample {wildcards.sample} \
