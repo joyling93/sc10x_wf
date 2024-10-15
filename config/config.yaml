@@ -1,7 +1,7 @@
 samples: "config/samples.yaml"
 
 get_cellranger:
-  url: "/public/software/cellranger-6.1.2/"
+  url: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/"
 
 get_reference:
   url: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
