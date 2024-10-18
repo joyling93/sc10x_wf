@@ -16,6 +16,7 @@ include: "rules/resources.smk"
 include: "rules/qc_reads.smk"
 include: "rules/counts.smk"
 include: "rules/seurat.smk"
+include: "rules/singler.smk"
 
 
 rule report:
@@ -24,3 +25,5 @@ rule report:
         expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
         expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
         "results/integration/integrated.rds",
+        "results/singler/singler_results.csv",
+        "results/enrichment/singler/enrich_list.xlsx",
