@@ -34,5 +34,5 @@ rule counts:
         --sample {wildcards.sample} \
         --expect-cells {params.n_cells} \
         --localcores {threads} \
-        --localmem {params.mem} &> {log};mv {wildcards.sample} results/counts/
+        --localmem {params.mem} &> {log};mv {wildcards.sample}/ results/counts/
         """
