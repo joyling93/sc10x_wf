@@ -26,6 +26,6 @@ rule integration:
     benchmark:
         "results/benchmarks/integration/integration.txt",
     conda:
-        "/public/home/weiyifan/miniforge3/envs/seurat4",
+        "/public/home/weiyifan/miniforge3/envs/sc_integration",
     script:
         "../scripts/multi_Seurat.R"
