@@ -5,8 +5,6 @@ rule singler:
         outdir="results/singler/",
         anf="results/singler/singler_results.csv",
         "results/singler/FindAllMarkers.xls"
-    params:
-        url=config["get_cellranger"]["url"],
     log:
         "results/logs/singler.log",
     benchmark:
