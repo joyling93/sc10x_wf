@@ -5,8 +5,7 @@ rule counts:
         bin=rules.get_cellranger.output.cr,
         genome=rules.get_reference.output.dir,
     output:
-        results=directory("results/counts/{sample}/outs/filtered_feature_bc_matrix"),
-        mtx="results/counts/{sample}/outs/raw_feature_bc_matrix/matrix.mtx.gz",
+        mtx="results/counts/{sample}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
         html=report(
             "results/counts/{sample}/outs/web_summary.html",
             caption="../reports/counts.rst",
@@ -34,5 +33,6 @@ rule counts:
         --sample {wildcards.sample} \
         --expect-cells {params.n_cells} \
         --localcores {threads} \
-        --localmem {params.mem} &> {log};mv {wildcards.sample} results/counts/
+        --localmem {params.mem} \
+        --output-dir results/counts/{wildcards.sample} &> {log}
         """

@@ -1,6 +1,6 @@
 rule seurat:
     input: 
-        mtx=rules.counts.output.results,
+        mtx=rules.counts.output.mtx,
     output:
         rds="results/seurat/{sample}/{sample}_seurat.rds",
     params:

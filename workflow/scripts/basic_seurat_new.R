@@ -48,14 +48,15 @@ suppressMessages({
 #                          col_names = c('Ensembl', 'Symbol')) %>% 
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }else{
-    id_map <- read_delim(paste0(snakemake@input[[1]] ,'/features.tsv.gz'), delim="\t",
+input_dir <- dirname(snakemake@input[[1]])
+    id_map <- read_delim(paste0( input_dir,'/features.tsv.gz'), delim="\t",
                          col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
         mutate(Symbol_uniq=make.unique(Symbol))
 # }
 outdir <- dirname(snakemake@output[[1]])
 sp <- snakemake@wildcards[['sample']]
-print(c(outdir, sp, snakemake@input[[1]]))
-data.count <- Read10X(snakemake@input[[1]])
+print(c(outdir, sp, input_dir))
+data.count <- Read10X(input_dir)
 
 
 obj <- CreateSeuratObject(counts = data.count,min.cells = 3,min.features = 200)
