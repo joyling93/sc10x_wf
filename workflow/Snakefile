@@ -21,6 +21,6 @@ include: "rules/seurat.smk"
 rule report:
     input:
         "results/multiqc/multiqc.html",
-        expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES),
+        expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
         expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
         "results/integration/integrated.rds",
