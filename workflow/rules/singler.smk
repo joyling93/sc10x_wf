@@ -4,7 +4,7 @@ rule singler:
     output:
         outdir="results/singler/",
         anf="results/singler/singler_results.csv",
-        "results/singler/FindAllMarkers.xls"
+        xls="results/singler/FindAllMarkers.xls"
     log:
         "results/logs/singler.log",
     benchmark:
