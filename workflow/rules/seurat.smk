@@ -1,6 +1,6 @@
 rule seurat:
     input: 
-        mtx=rules.counts.output.mtx,
+        mtx="results/counts/{sample}_cr/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
     output:
         rds="results/seurat/{sample}/{sample}_seurat.rds",
     params:

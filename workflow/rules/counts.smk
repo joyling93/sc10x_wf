@@ -5,7 +5,6 @@ rule counts:
         bin=rules.get_cellranger.output.cr,
         genome=rules.get_reference.output.dir,
     output:
-        mtx="results/counts/{sample}_cr/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
         html=report(
             "results/counts/{sample}_cr/outs/web_summary.html",
             caption="../reports/counts.rst",
