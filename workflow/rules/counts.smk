@@ -7,7 +7,7 @@ rule counts:
     output:
         mtx=temp("results/counts/{sample}_cr/outs/filtered_feature_bc_matrix/matrix.mtx.gz"),
         html=report(
-            "results/counts/{sample}/outs/web_summary.html",
+            "results/counts/{sample}_cr/outs/web_summary.html",
             caption="../reports/counts.rst",
             category="Cellranger Counts",
             subcategory="{sample}",
@@ -34,5 +34,7 @@ rule counts:
         --expect-cells {params.n_cells} \
         --localcores {threads} \
         --localmem {params.mem} \
-        --output-dir results/counts/{wildcards.sample} &> {log} ; cp -r results/counts/{wildcards.sample}/outs/filtered_feature_bc_matrix/ results/counts/{wildcards.sample}_cr/outs/filtered_feature_bc_matrix/
+        --output-dir results/counts/{wildcards.sample} &> {log} ; \
+        cp -r results/counts/{wildcards.sample}/outs/filtered_feature_bc_matrix/ results/counts/{wildcards.sample}_cr/outs/filtered_feature_bc_matrix/ ; \
+        cp results/counts/{wildcards.sample}/outs/web_summary.html results/counts/{wildcards.sample}_cr/outs/web_summary.html
         """
