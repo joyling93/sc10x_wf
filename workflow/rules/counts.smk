@@ -35,6 +35,6 @@ rule counts:
         --localcores {threads} \
         --localmem {params.mem} \
         --output-dir results/counts/{wildcards.sample} &> {log} ; \
-        cp -r results/counts/{wildcards.sample}/outs/filtered_feature_bc_matrix/ results/counts/{wildcards.sample}_cr/outs/filtered_feature_bc_matrix/ ; \
+        cp -r results/counts/{wildcards.sample}/outs/filtered_feature_bc_matrix/ results/counts/{wildcards.sample}_cr/outs/ ; \
         cp results/counts/{wildcards.sample}/outs/web_summary.html results/counts/{wildcards.sample}_cr/outs/web_summary.html
         """
