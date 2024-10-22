@@ -7,7 +7,7 @@ rule counts:
     output:
         mtx=temp("results/counts/{sample}_cr/outs/filtered_feature_bc_matrix/matrix.mtx.gz"),
         html=report(
-            "results/counts/{sample}_cr/outs/web_summary.html",
+            "results/counts/{sample}/outs/web_summary.html",
             caption="../reports/counts.rst",
             category="Cellranger Counts",
             subcategory="{sample}",
