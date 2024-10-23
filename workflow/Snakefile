@@ -26,4 +26,4 @@ rule report:
         expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
         "results/integration/integrated.rds",
         "results/singler/singler_results.csv",
-        "results/enrichment/singler/enrich_list.xlsx",
+        directory("results/enrichment/singler/"),
