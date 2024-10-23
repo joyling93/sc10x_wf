@@ -18,12 +18,10 @@ rule enrichment:
     input:
         "results/singler/FindAllMarkers.xls",
     output:
-        directory("results/enrichment/{params.contrast}"),
-    params:
-        contrast="singler",
+        directory("results/enrichment/singler/"),
     conda:
         "/public/home/weiyifan/miniforge3/envs/enrichment"
     log:
-        "logs/enrich/{params.contrast}.log",
+        "logs/enrich/singler.log",
     script:
         "../scripts/enrich.R"
