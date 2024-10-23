@@ -37,7 +37,7 @@ enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
                                 input_directory= "/public/home/weiyifan/database/stringdb/")
                 print(head(gl$gene))
 
-                deg_mapped <- string_db$map(gl, "gene", removeUnmappedRows = TRUE )
+                deg_mapped <- string_db$map(as.data.frame(gl), "gene", removeUnmappedRows = TRUE )
                 
                 cat("Total String id mapped :", dim(deg_mapped)[1])
                 
