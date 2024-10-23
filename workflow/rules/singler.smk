@@ -2,7 +2,7 @@ rule singler:
     input: 
         rds="results/integration/integrated.rds",
     output:
-        outdir="results/singler/",
+        outdir=directory("results/singler/"),
         anf="results/singler/singler_results.csv",
         xls="results/singler/FindAllMarkers.xls"
     log:
