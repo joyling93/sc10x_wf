@@ -28,10 +28,6 @@ eg <- bitr(gene_list$gene, fromType="SYMBOL", toType="ENTREZID", OrgDb=db[1])
 gene_list <- gene_list%>%left_join(eg,by=join_by(gene==SYMBOL))%>%drop_na()
 #geneList<-eg$ENTREZID
 
-gl<-gene_list%>%
-    mutate(type=ifelse(p_val_adj>0.99,'not_significant',
-        ifelse(avg_log2FC>0,'up','down')))%>%split(.$type)
-
 enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
                 dir.create(out_dir,recursive = T)
                 ##ppi
@@ -147,31 +143,42 @@ enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
                 #Sys.sleep(30)
 }
 
+gene_list <- gene_list%>%
+    mutate(type=ifelse(p_val_adj>0.99,'not_significant',
+        ifelse(avg_log2FC>0,'up','down')))
+
 ##ora
-iwalk(gl,~enrich_ora(gl=.x,db=db,out_dir=file.path(outdir,.y)))
+gl <- gene_list%>%group_by(cluster,type)%>%nest()
+pwalk(list(gl$cluster,gl$type,gl$data),~enrich_ora(gl=..3,db=db,out_dir=file.path(outdir,..1,..2)))
+#walk2(gl,cluster,type,~enrich_ora(gl=data,db=db,out_dir=file.path(outdir,.x,.y)))
 ##gsea
-geneList <- gene_list$avg_log2FC
-names(geneList) <- gene_list$ENTREZID
-geneList <- sort(geneList, decreasing = TRUE)
+gl2 <- gene_list%>%group_by(cluster)%>%nest()
 
-ego <- gseGO(geneList     = geneList,
-              OrgDb        = db[1],
-              ont          = "all",
-              minGSSize    = 100,
-              maxGSSize    = 500,
-              pvalueCutoff = 0.05,
-              verbose      = FALSE
-              )
-write.csv(ego,file.path(outdir,'go_gsea.csv'))
-saveRDS(ego,file.path(outdir,'go_gsea.rds'))
+enrich_gsea<-function(gl,db,out_dir){
+        geneList <- gl$avg_log2FC
+        names(geneList) <- gl$ENTREZID
+        geneList <- sort(geneList, decreasing = TRUE)
 
-kk <- gseKEGG(geneList     = geneList,
-               organism     = db[3],
-               minGSSize    = 120,
-               pvalueCutoff = 0.05,
-               verbose      = FALSE,
-               use_internal_data = F
-               )
+        ego <- gseGO(geneList     = geneList,
+                OrgDb        = db[1],
+                ont          = "all",
+                minGSSize    = 100,
+                maxGSSize    = 500,
+                pvalueCutoff = 0.05,
+                verbose      = FALSE
+                )
+        write.csv(ego,file.path(outdir,'go_gsea.csv'))
+        saveRDS(ego,file.path(outdir,'go_gsea.rds'))
 
-write.csv(kk,file.path(outdir,'kegg_gsea.csv'))
-saveRDS(kk,file.path(outdir,'kegg_gsea.rds'))
+        kk <- gseKEGG(geneList     = geneList,
+                organism     = db[3],
+                minGSSize    = 120,
+                pvalueCutoff = 0.05,
+                verbose      = FALSE,
+                use_internal_data = F
+                )
+
+        write.csv(kk,file.path(outdir,'kegg_gsea.csv'))
+        saveRDS(kk,file.path(outdir,'kegg_gsea.rds'))
+}
+walk2(gl2$cluster,gl2$data,~enrich_gsea(gl=..2,db=db,out_dir=file.path(outdir,..1)))
