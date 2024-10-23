@@ -18,7 +18,7 @@ rule enrichment:
     input:
         "results/singler/FindAllMarkers.xls",
     output:
-        directory("results/enrichment/{contrast}"),
+        directory("results/enrichment/{params.contrast}"),
     params:
         contrast="singler",
     conda:
