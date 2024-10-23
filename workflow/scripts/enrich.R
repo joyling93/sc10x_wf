@@ -29,7 +29,7 @@ gene_list <- gene_list%>%left_join(eg,by=join_by(gene==SYMBOL))%>%drop_na()
 #geneList<-eg$ENTREZID
 
 gl<-gene_list%>%
-    mutate(type=ifelse(padj>0.99,'not_significant',
+    mutate(type=ifelse(p_val_adj>0.99,'not_significant',
         ifelse(log2FoldChange>0,'up','down')))%>%split(.$type)
 
 enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
