@@ -26,6 +26,6 @@ DimPlot(obj, label=TRUE, group.by = 'singler',reduction = 'umap')
 
 
 Idents(obj) <- 'singler'
-obj.markers <- FindAllMarkers(obj, logfc.threshold=0.25, min.pct=0.1,only.pos = T) 
+obj.markers <- FindAllMarkers(obj, logfc.threshold=0.25, min.pct=0.1) 
 
 write_tsv(obj.markers,file.path(outdir,'FindAllMarkers.xls'))
