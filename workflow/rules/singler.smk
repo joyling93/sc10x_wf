@@ -24,6 +24,6 @@ rule enrichment:
     conda:
         "/public/home/weiyifan/miniforge3/envs/enrichment"
     log:
-        "logs/enrich/{contrast}.log",
+        "logs/enrich/{params.contrast}.log",
     script:
         "../scripts/enrich.R"
