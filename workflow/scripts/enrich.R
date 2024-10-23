@@ -30,7 +30,7 @@ gene_list <- gene_list%>%left_join(eg,by=join_by(gene==SYMBOL))%>%drop_na()
 
 gl<-gene_list%>%
     mutate(type=ifelse(p_val_adj>0.99,'not_significant',
-        ifelse(log2FoldChange>0,'up','down')))%>%split(.$type)
+        ifelse(avg_log2FC>0,'up','down')))%>%split(.$type)
 
 enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
                 dir.create(out_dir,recursive = T)
@@ -150,7 +150,7 @@ enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
 ##ora
 iwalk(gl,~enrich_ora(gl=.x,db=db,out_dir=file.path(outdir,.y)))
 ##gsea
-geneList <- gene_list$log2FoldChange
+geneList <- gene_list$avg_log2FC
 names(geneList) <- gene_list$ENTREZID
 geneList <- sort(geneList, decreasing = TRUE)
 
