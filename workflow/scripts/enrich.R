@@ -31,7 +31,7 @@ gene_list <- gene_list%>%left_join(eg,by=join_by(gene==SYMBOL))%>%drop_na()
 enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
                 dir.create(out_dir,recursive = T)
                 #gl<-gl[[1]]
-                print(head(gl))
+                saveRDS(gl,'test.rds')
                 ##ppi
                 string_db <- STRINGdb$new(version="12.0",species=as.numeric(db[4]),score_threshold=700,
                                 input_directory= "/public/home/weiyifan/database/stringdb/")
