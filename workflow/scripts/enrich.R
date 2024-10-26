@@ -150,10 +150,14 @@ gene_list <- gene_list%>%
         ifelse(avg_log2FC>0,'up','down')))
 
 ##ora
-gl <- gene_list%>%group_by(cluster,type)%>%nest()
+gl <- gene_list%>%dplyr::filter(type!='not_significant')%>%
+        group_by(cluster,type)%>%nest()
 pwalk(list(gl$cluster,gl$type,gl$data),~enrich_ora(gl=..3,db=db,out_dir=file.path(outdir,..1,..2)))
 #walk2(gl,cluster,type,~enrich_ora(gl=data,db=db,out_dir=file.path(outdir,.x,.y)))
 ##gsea
+library(BiocParallel)
+options(MulticoreParam=MulticoreParam(workers=snakemake@threads[[1]]))
+
 gl2 <- gene_list%>%group_by(cluster)%>%nest()
 
 enrich_gsea<-function(gl,db,out_dir){

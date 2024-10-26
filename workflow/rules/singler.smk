@@ -19,6 +19,7 @@ rule enrichment:
         "results/singler/FindAllMarkers.xls",
     output:
         directory("results/enrichment/singler/"),
+    threads: 10,
     conda:
         "/public/home/weiyifan/miniforge3/envs/enrichment"
     log:
