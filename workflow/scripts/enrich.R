@@ -146,7 +146,7 @@ enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
 }
 
 gene_list <- gene_list%>%
-    mutate(type=ifelse(p_val_adj>0.99,'not_significant',
+    mutate(type=ifelse(p_val_adj>0.05,'not_significant',
         ifelse(avg_log2FC>0,'up','down')))
 
 ##ora
