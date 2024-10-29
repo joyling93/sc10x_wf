@@ -3,8 +3,6 @@ rule seurat:
         mtx=rules.counts.output.mtx,
     output:
         rds="results/seurat/{sample}/{sample}_seurat.rds",
-    params:
-        url=config["get_cellranger"]["url"],
     log:
         "results/logs/seurat/{sample}.log",
     benchmark:
@@ -19,8 +17,6 @@ rule integration:
         rds=[f"results/seurat/{sample}/{sample}_seurat.rds" for sample in SAMPLES],
     output:
         rds="results/integration/integrated.rds",
-    params:
-        url=config["get_cellranger"]["url"],
     log:
         "results/logs/integration/integration.log",
     benchmark:
