@@ -66,6 +66,17 @@ def convert_introns():
     else:
         return ""
 
+def convert_sp_extra(wildcards):
+    """Specify whether introns should be counted
+
+    For ease of use, the user only specifies True or False
+    This function handles the conversion.
+    """
+    if metadata["1"][wildcards.sample]["image"]:
+        return f"--image {metadata[1][wildcards.sample]["image"]} --slide {metadata[1][wildcards.sample]["slide"]} --area{metadata[1][wildcards.sample]["area"]}"
+    else:
+        return ""
+
 
 def get_sample_reads(wildcards):
     """Get all reads for Cellranger.

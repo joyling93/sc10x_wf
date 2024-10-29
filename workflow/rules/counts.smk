@@ -16,6 +16,7 @@ rule counts:
         introns=convert_introns(),
         n_cells=config["counts"]["n_cells"],
         mem=config["counts"]["mem"],
+        sp_extra=convert_sp_extra,
     log:
         "results/logs/counts/{sample}.log",
     benchmark:
@@ -23,7 +24,7 @@ rule counts:
     threads: 16
     shell:
         """
-        {input.bin}/cellranger \
+        {input.bin} \
         count \
         --nosecondary \
         {params.introns} \
@@ -34,6 +35,7 @@ rule counts:
         --expect-cells {params.n_cells} \
         --localcores {threads} \
         --localmem {params.mem} \
+        {params.sp_extra} \
         --output-dir results/counts/{wildcards.sample} &> {log} ; \
         cp -r results/counts/{wildcards.sample}/outs/filtered_feature_bc_matrix/ results/counts/{wildcards.sample}_cr/outs/ ; \
         cp results/counts/{wildcards.sample}/outs/web_summary.html results/counts/{wildcards.sample}_cr/outs/web_summary.html

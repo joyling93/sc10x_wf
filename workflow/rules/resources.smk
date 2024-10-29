@@ -4,7 +4,7 @@ rule get_cellranger:
     output:
         cr=directory("resources/cellranger"),
     params:
-        url=config["get_cellranger"]["url"],
+        url=config["get_cellranger"][config["pipeline"]],
     log:
         "results/logs/get_cellranger/get_cellranger.log",
     benchmark:
@@ -19,7 +19,7 @@ rule get_reference:
     output:
         dir=directory("resources/genome"),
     params:
-        url=config["get_reference"]["url"],
+        url=config["get_reference"][config["species"]],
     log:
         "results/logs/get_reference/get_reference.log",
     benchmark:

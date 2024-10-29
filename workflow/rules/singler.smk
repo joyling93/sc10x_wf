@@ -20,6 +20,8 @@ rule enrichment:
     output:
         directory("results/enrichment/singler/"),
     threads: 10,
+    params:
+        db=config["species"],
     conda:
         "/public/home/weiyifan/miniforge3/envs/enrichment"
     log:

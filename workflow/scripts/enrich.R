@@ -8,13 +8,10 @@ library(STRINGdb)
 #读取差异表达基因
 library(tidyverse)
 gene_list=read.table(snakemake@input[[1]],header = T)
-db<-"homo_sapiens"
+db<-snakemake@params[["db"]]
 outdir<-snakemake@output[[1]]
 dir.create(outdir,recursive = T)
 
-if(!db%in%c("homo_sapiens","org.Mm.eg.db")){
-    db<-"homo_sapiens"
-}
 db<-
         switch(db,
                 homo_sapiens=c('org.Hs.eg.db','Homo sapiens','hsa',"9606"),

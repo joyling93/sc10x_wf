@@ -1,13 +1,20 @@
 samples: "config/samples.yaml"
+species: "homo_sapiens"
+pipeline: "spaceranger"
 
 get_cellranger:
-  url: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/"
+  cellranger: 
+    bin: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/cellranger"
+  spaceranger: 
+    bin: "/public/home/weiyifan/xzm/soft/spaceranger-3.1.1/spaceranger"
+
 
 get_reference:
-  url: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
+  homo_sapiens: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
+  mus_musculus: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-mm10-2020-A/"
 
 counts:
-  introns: True
+  introns: False
   n_cells: 3000
   mem: 190
 
