@@ -9,6 +9,8 @@ rule seurat:
         "results/benchmarks/seurat/{sample}.txt",
     conda:
         "/public/home/weiyifan/miniforge3/envs/seurat4",
+    params:
+        db=config["species"],
     script:
         "../scripts/basic_seurat_new.R"
 

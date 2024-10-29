@@ -9,7 +9,7 @@ scdir<-'/public/home/weiyifan/xzm/workshop'
 source('/public/home/weiyifan/xzm/workshop/utilis.R')
 dims <- 15
 minpct <- 0.1
-species <- 'human'
+species <- snakemake@params[["db"]]
 logfc<-'0.25'
 minumi <- 3
 mito <- NULL
@@ -48,7 +48,7 @@ suppressMessages({
 #                          col_names = c('Ensembl', 'Symbol')) %>% 
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }else{
-input_dir <- dirname(snakemake@input[[1]])
+input_dir <- snakemake@input[[1]]
     id_map <- read_delim(paste0( input_dir,'/features.tsv.gz'), delim="\t",
                          col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
         mutate(Symbol_uniq=make.unique(Symbol))
@@ -63,7 +63,7 @@ obj <- CreateSeuratObject(counts = data.count,min.cells = 3,min.features = 200)
 setwd(outdir)
 human_hemo_gene <- unlist(strsplit('HBA1 HBA2 HBB HBD HBE1 HBG1 HBG2 HBM HBQ1 HBZ', ' '))
 mouse_hemo_gene <- unlist(strsplit('Hbb-bt Hbb-bs Hbb-bh2 Hbb-bh1 Hbb-y Hba-x Hba-a1 Hbq1b Hba-a2 Hbq1a', ' '))
-hemo_gene <- switch(species, human=human_hemo_gene, mouse=mouse_hemo_gene, NA)
+hemo_gene <- switch(species, homo_sapiens=human_hemo_gene, mus_musculus=mouse_hemo_gene, NA)
 
 obj[['percent.mito']] <- PercentageFeatureSet(object = obj, pattern = '^(MT|mt|Mt)-')
 ggsave(paste0(sp, '_features_VlnPlot.png'), VlnPlot(obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mito"), ncol = 3, pt.size=0), dpi=300)
