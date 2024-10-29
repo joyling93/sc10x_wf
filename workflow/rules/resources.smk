@@ -7,8 +7,6 @@ rule get_cellranger:
         url=config["get_cellranger"][config["pipeline"]],
     log:
         "results/logs/get_cellranger/get_cellranger.log",
-    benchmark:
-        "results/benchmarks/get_cellranger/get_cellranger.txt"
     shell:
         """
            ln -s "{params.url}"  resources/cellranger
@@ -22,8 +20,6 @@ rule get_reference:
         url=config["get_reference"][config["species"]],
     log:
         "results/logs/get_reference/get_reference.log",
-    benchmark:
-        "results/benchmarks/get_reference/get_reference.txt"
     shell:
         """
             ln -s "{params.url}" resources/genome
