@@ -73,9 +73,9 @@ def convert_sp_extra(wildcards):
     This function handles the conversion.
     """
     if metadata["1"][wildcards.sample]["image"]:
-        return f"--image {metadata[1][wildcards.sample]["image"]} --slide {metadata[1][wildcards.sample]["slide"]} --area{metadata[1][wildcards.sample]["area"]}"
+        return [f"--image {metadata[1][wildcards.sample]["image"]} --slide {metadata[1][wildcards.sample]["slide"]} --area{metadata[1][wildcards.sample]["area"]}"]
     else:
-        return ""
+        return [""]
 
 
 def get_sample_reads(wildcards):
