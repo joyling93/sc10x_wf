@@ -2,7 +2,7 @@
 # The naming and rules ensure that any verion can be used
 rule get_cellranger:
     output:
-        cr=directory("resources/cellranger"),
+        cr="resources/cellranger",
     params:
         url=config["get_cellranger"][config["pipeline"]],
     log:
