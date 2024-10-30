@@ -61,11 +61,10 @@ def convert_introns():
     For ease of use, the user only specifies True or False
     This function handles the conversion.
     """
-    parp = f"--expect-cells {config["counts"]["n_cells"]}"
     if config["counts"]["introns"]:
-        return parp+"--include-introns"
+        return "--include-introns"
     else:
-        return parp+""
+        return ""
 
 def convert_sp_extra(wildcards):
     """Specify whether introns should be counted
@@ -75,6 +74,8 @@ def convert_sp_extra(wildcards):
     """
     if metadata["1"][wildcards.sample]["image"]:
         return f"--image {metadata["1"][wildcards.sample]["image"]} --slide {metadata["1"][wildcards.sample]["slide"]} --area {metadata["1"][wildcards.sample]["area"]}"
+    else:
+        return f"--expect-cells {config["counts"]["n_cells"]}"
 
 
 def get_sample_reads(wildcards):
