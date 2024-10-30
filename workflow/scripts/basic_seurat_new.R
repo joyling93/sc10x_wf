@@ -75,7 +75,7 @@ if(snakemake@config[["pipeline"]]=="spaceranger"){
     p1 + p2
     ggsave(paste0(sp, '_DimPlot.png'), p1 + p2, dpi=300,width=14)
     saveRDS(brain, file = paste0(sp, "_seurat.rds"))
-    return("spaceranger pipeline done!")
+    q(save = "no")
 }
 
 
