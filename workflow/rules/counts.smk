@@ -14,7 +14,6 @@ rule counts:
         ),
     params:
         introns=convert_introns(),
-        n_cells=config["counts"]["n_cells"],
         mem=config["counts"]["mem"],
         sp_extra=convert_sp_extra,
     log:
@@ -32,7 +31,6 @@ rule counts:
         --transcriptome {input.genome} \
         --fastqs data \
         --sample {wildcards.sample} \
-        --expect-cells {params.n_cells} \
         --localcores {threads} \
         --localmem {params.mem} \
         {params.sp_extra} \
