@@ -75,7 +75,7 @@ def convert_sp_extra(wildcards):
     if metadata["1"][wildcards.sample]["image"]:
         return f"--image {metadata["1"][wildcards.sample]["image"]} --slide {metadata["1"][wildcards.sample]["slide"]} --area {metadata["1"][wildcards.sample]["area"]}"
     else:
-        return f"--expect-cells {config["counts"]["n_cells"]]}"
+        return [f"--expect-cells {config["counts"]["n_cells"]]}"]
 
 
 def get_sample_reads(wildcards):
