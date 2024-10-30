@@ -48,14 +48,37 @@ suppressMessages({
 #                          col_names = c('Ensembl', 'Symbol')) %>% 
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }else{
-input_dir <- snakemake@input[[1]]
-    id_map <- read_delim(paste0( input_dir,'/features.tsv.gz'), delim="\t",
-                         col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
-        mutate(Symbol_uniq=make.unique(Symbol))
+input_dir <- paste0(snakemake@input[[1]],"outs/filtered_feature_bc_matrix/")
+id_map <- read_delim(paste0( input_dir,'/features.tsv.gz'), delim="\t",
+                    col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
+    mutate(Symbol_uniq=make.unique(Symbol))
 # }
 outdir <- dirname(snakemake@output[[1]])
 sp <- snakemake@wildcards[['sample']]
 print(c(outdir, sp, input_dir))
+
+if(snakemake@config[["pipeline"]]=="spaceranger"){
+    #library(patchwork)
+    input_dir <- snakemake@input[[1]]
+    brain <- Load10X_Spatial(input_dir)
+    plot1 <- VlnPlot(brain, features = "nCount_Spatial", pt.size = 0.1) + NoLegend()
+    plot2 <- SpatialFeaturePlot(brain, features = "nCount_Spatial") + theme(legend.position = "right")
+    setwd(outdir)
+    ggsave(paste0(sp, '_features_VlnPlot.png'), plot1 + plot2, dpi=300,width=14)
+    brain <- SCTransform(brain, assay = "Spatial", verbose = FALSE)
+    brain <- RunPCA(brain, assay = "SCT", verbose = FALSE)
+    brain <- FindNeighbors(brain, reduction = "pca", dims = 1:30)
+    brain <- FindClusters(brain, verbose = FALSE)
+    brain <- RunUMAP(brain, reduction = "pca", dims = 1:30)
+    p1 <- DimPlot(brain, reduction = "umap", label = TRUE)
+    p2 <- SpatialDimPlot(brain, label = TRUE, label.size = 3)
+    p1 + p2
+    ggsave(paste0(sp, '_DimPlot.png'), p1 + p2, dpi=300,width=14)
+    saveRDS(brain, file = paste0(sp, "_seurat.rds"))
+    return("spaceranger pipeline done!")
+}
+
+
 data.count <- Read10X(input_dir)
 
 
