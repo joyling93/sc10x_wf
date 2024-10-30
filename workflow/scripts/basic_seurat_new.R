@@ -48,8 +48,8 @@ suppressMessages({
 #                          col_names = c('Ensembl', 'Symbol')) %>% 
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }else{
-input_dir <- paste0(snakemake@input[[1]],"outs/filtered_feature_bc_matrix/")
-id_map <- read_delim(paste0( input_dir,'/features.tsv.gz'), delim="\t",
+input_dir <- paste0(snakemake@input[[1]],"/outs/filtered_feature_bc_matrix/")
+id_map <- read_delim(paste0( input_dir,'features.tsv.gz'), delim="\t",
                     col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
     mutate(Symbol_uniq=make.unique(Symbol))
 # }
