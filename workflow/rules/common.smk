@@ -55,7 +55,7 @@ def agg_fastqc():
     )
 
 
-def convert_extra():
+def convert_introns():
     """Specify whether introns should be counted
 
     For ease of use, the user only specifies True or False
