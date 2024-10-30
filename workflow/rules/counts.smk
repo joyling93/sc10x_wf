@@ -35,5 +35,5 @@ rule counts:
         --localmem {params.mem} \
         {params.sp_extra} \
         --output-dir results/counts/{wildcards.sample} &> {log} ; \
-        cp -r results/counts/{wildcards.sample}/ results/counts/{wildcards.sample}_cr/
+        cp -r results/counts/{wildcards.sample}/outs/ results/counts/{wildcards.sample}_cr/
         """
