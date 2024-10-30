@@ -59,7 +59,7 @@ print(c(outdir, sp, input_dir))
 
 if(snakemake@config[["pipeline"]]=="spaceranger"){
     #library(patchwork)
-    input_dir <- snakemake@input[[1]]
+    input_dir <- paste0(snakemake@input[[1]],"/outs/")
     brain <- Load10X_Spatial(input_dir)
     plot1 <- VlnPlot(brain, features = "nCount_Spatial", pt.size = 0.1) + NoLegend()
     plot2 <- SpatialFeaturePlot(brain, features = "nCount_Spatial") + theme(legend.position = "right")
