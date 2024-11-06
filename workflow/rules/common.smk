@@ -12,12 +12,16 @@ with open(config["samples"], "r") as file:
 LANES = list(metadata.keys())
 SAMPLES = set()
 for _, v in metadata.items():
-    SAMPLES = SAMPLES.union(v.keys())
+    if config["pipeline"]=="multi":
+        kl = [k for k in v.keys() if "-gex" in k]
+    else:
+        kl = v.keys()
+    SAMPLES = SAMPLES.union(kl)
 
 
 # wildcard restraints - as reads can only be R1 or R2
 wildcard_constraints:
-    read="R[12]",
+    read="R[12]|I[12]",
 
 
 # Input functions
@@ -48,7 +52,7 @@ def agg_fastqc():
         for sample in samples.keys():
             fastq_out = fastq_out + [
                 f"results/fastqc/{lane}_{sample}_{read}_fastqc.zip"
-                for read in ["R1", "R2"]
+                for read in ["R1", "R2","I1","I2"]
             ]
     return dict(
         fastqc=fastq_out,
@@ -103,3 +107,6 @@ def get_qc_data(wildcards):
         k: [f"results/qc/{val}/adata.h5ad" for val in v] for k, v in keys_only.items()
     }
     return dict(data=keys_only[wildcards.lane])
+
+def get_csv(wildcards):  
+    return metadata["1"][wildcards.sample]["csv"]

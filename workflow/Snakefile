@@ -5,7 +5,7 @@
 from snakemake.utils import validate
 
 
-configfile: "config/config.yaml"
+configfile: "config_multi/config.yaml"
 
 
 #container: "docker://condaforge/mambaforge:4.10.3-6"
@@ -22,7 +22,7 @@ if config["pipeline"]=="cellranger":
     rule report:
         input:
             "results/multiqc/multiqc.html",
-            expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES),
+            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
             "results/integration/integrated.rds",
             "results/singler/singler_results.csv",
@@ -32,5 +32,12 @@ if config["pipeline"]=="spaceranger":
     rule report:
         input:
             "results/multiqc/multiqc.html",
-            expand("results/counts/{sample}/outs/web_summary.html", sample=SAMPLES),
+            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
+            expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES)
+
+if config["pipeline"]=="multi":
+    rule report:
+        input:
+            "results/multiqc/multiqc.html",
+            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES)
