@@ -52,7 +52,7 @@ def agg_fastqc():
         for sample in samples.keys():
             fastq_out = fastq_out + [
                 f"results/fastqc/{lane}_{sample}_{read}_fastqc.zip"
-                for read in ["R1", "R2","I1","I2"]
+                for read in config["fq_type"]
             ]
     return dict(
         fastqc=fastq_out,

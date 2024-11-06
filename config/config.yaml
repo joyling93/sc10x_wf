@@ -1,7 +1,12 @@
 samples: "config/samples.yaml"
 species: "mus_musculus"
 pipeline: "spaceranger"
-
+fq_type:
+  - "R1"
+  - "R2"
+  - "I1"
+  - "I2"
+  
 get_cellranger:
   cellranger: 
     bin: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/cellranger"
