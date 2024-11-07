@@ -22,22 +22,22 @@ if config["pipeline"]=="cellranger":
     rule report:
         input:
             "results/multiqc/multiqc.html",
-            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
             "results/integration/integrated.rds",
             "results/singler/singler_results.csv",
-            directory("results/enrichment/singler/")
+            "results/enrichment/singler/"
 
 if config["pipeline"]=="spaceranger":
     rule report:
         input:
             "results/multiqc/multiqc.html",
-            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES)
 
 if config["pipeline"]=="multi":
     rule report:
         input:
             "results/multiqc/multiqc.html",
-            expand("results/counts/{sample}_cr/outs/web_summary.html", sample=SAMPLES),
-            expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES)
+            expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
+            "results/integration/integrated.rds",
+            "results/singler/singler_results.csv",
+            "results/enrichment/singler/"

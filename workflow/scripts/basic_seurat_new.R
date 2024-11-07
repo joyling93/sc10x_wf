@@ -1,8 +1,7 @@
-# suppressPackageStartupMessages({
-#     library(argparse)
-# })
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log)
+sink(log, type="message")
 
-# args_ <- commandArgs(F)
 scdir<-'/public/home/weiyifan/xzm/workshop'
 #scdir <- normalizePath(dirname(sub('--file=', '', args_[grep('--file', args_)])))
 #KEGG.DIR <- paste0(scdir, '/database/KEGG')
@@ -49,6 +48,11 @@ suppressMessages({
 #         mutate(Symbol_uniq=make.unique(Symbol))
 # }else{
 input_dir <- paste0(snakemake@input[[1]],"/outs/filtered_feature_bc_matrix/")
+if(snakemake@config[["pipeline"]]=="multi"){
+    input_dir <- paste0(snakemake@input[[1]],
+        "/outs/per_sample_outs/",snakemake@wildcards[['sample']],"/count/sample_filtered_feature_bc_matrix/")
+}
+
 id_map <- read_delim(paste0( input_dir,'features.tsv.gz'), delim="\t",
                     col_names = c('Ensembl', 'Symbol', 'Type')) %>% dplyr::select(-Type) %>%
     mutate(Symbol_uniq=make.unique(Symbol))

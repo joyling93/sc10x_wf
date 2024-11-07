@@ -34,9 +34,7 @@ rule clean_names:
         "data/{sample}_S1_L00{lane}_{read}_001.fastq.gz",
     log:
         "results/logs/clean_names/{lane}_{sample}_{read}.log",
-    benchmark:
-        "results/benchmarks/clean_names/{lane}_{sample}_{read}.txt"
     shell:
         """
-        mv {input} {output} &> {log}
+        ln -s {input} {output} &> {log}
         """

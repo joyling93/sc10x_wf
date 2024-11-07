@@ -11,12 +11,6 @@ if config["pipeline"]=="multi" :
             sample=".+-gex",
         output:
             mtx=temp("results/counts/{sample}_cr/"),
-            html=report(
-                "results/counts/{sample}_cr/outs/web_summary.html",
-                caption="../reports/counts.rst",
-                category="Cellranger Counts",
-                subcategory="{sample}",
-            ),
         params:
             sp_extra=convert_sp_extra,
         log:
@@ -41,12 +35,6 @@ else :
             genome=rules.get_reference.output.dir,
         output:
             mtx=temp("results/counts/{sample}_cr/"),
-            html=report(
-                "results/counts/{sample}_cr/outs/web_summary.html",
-                caption="../reports/counts.rst",
-                category="Cellranger Counts",
-                subcategory="{sample}",
-            ),
         params:
             introns=convert_introns(),
             mem=config["counts"]["mem"],
