@@ -10,7 +10,7 @@ if config["pipeline"]=="multi" :
         wildcard_constraints:
             sample=".+-gex",
         output:
-            mtx=temp("results/counts/{sample}_cr/"),
+            mtx=directory("results/counts/{sample}_cr/"),
         params:
             sp_extra=convert_sp_extra,
         log:

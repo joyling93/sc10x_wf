@@ -4,7 +4,7 @@ library(tidyverse)
 obj <- readRDS(snakemake@input[[1]])
 outdir <- snakemake@output[[1]]
 rd<-switch(snakemake@config[["species"]],
-       homo_sapiens = "/repository/Test/scRNA_mj/SingleR_database/HumanPrimaryCellAtlas_hpca.se_human.RData"
+       homo_sapiens = "/repository/Test/scRNA_mj/SingleR_database/HumanPrimaryCellAtlas_hpca.se_human.RData",
        mus_musculus = "/repository/Test/scRNA_mj/SingleR_database/MouseRNAseqData.Rdata"
 )
 hpca.se <- get(load(rd))

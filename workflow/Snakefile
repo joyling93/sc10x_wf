@@ -17,7 +17,7 @@ include: "rules/qc_reads.smk"
 include: "rules/counts.smk"
 include: "rules/seurat.smk"
 include: "rules/singler.smk"
-
+include: "rules/vdj.smk"
 if config["pipeline"]=="cellranger":
     rule report:
         input:
@@ -40,5 +40,5 @@ if config["pipeline"]=="multi":
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
             "results/integration/integrated.rds",
             "results/singler/singler_results.csv",
-            "results/enrichment/singler/",
-            "results/ct"
+            "results/ct",
+            #"results/enrichment/singler/",

@@ -50,7 +50,7 @@ suppressMessages({
 input_dir <- paste0(snakemake@input[[1]],"/outs/filtered_feature_bc_matrix/")
 if(snakemake@config[["pipeline"]]=="multi"){
     input_dir <- paste0(snakemake@input[[1]],
-        "/outs/per_sample_outs/",snakemake@wildcards[['sample']],"/count/sample_filtered_feature_bc_matrix/")
+        "/per_sample_outs/",snakemake@wildcards[['sample']],"/count/sample_filtered_feature_bc_matrix/")
 }
 
 id_map <- read_delim(paste0( input_dir,'features.tsv.gz'), delim="\t",
