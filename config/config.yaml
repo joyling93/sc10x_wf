@@ -1,12 +1,14 @@
 samples: "config/samples.yaml"
 # mus_musculus|homo_sapiens
-species: "mus_musculus" 
+species: "homo_sapiens" 
  # cellranger|spaceranger|multi
-pipeline: "spaceranger"
+pipeline: "cellranger"
 # index类型,根据原始数据后缀修改
 fq_type:
   - "R1"
   - "R2"
+  - "I1"
+  - "I2"
 
 counts:
   introns: False #定量时是否包含内含子

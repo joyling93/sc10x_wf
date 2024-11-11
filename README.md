@@ -1,21 +1,13 @@
-# Snakemake workflow: `<name>`
+此流程仅用于 10x 平台单细胞准转录组、空间组和免疫组学数据分析。
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/<owner>/<repo>/workflows/Tests/badge.svg?branch=main)](https://github.com/<owner>/<repo>/actions?query=branch%3Amain+workflow%3ATests)
-
-
-A Snakemake workflow for `<description>`
-
-
-## Usage
-
-The usage of this workflow is described in the [Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=<owner>%2F<repo>).
-
-If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
-
-# TODO
-
-* Replace `<owner>` and `<repo>` everywhere in the template (also under .github/workflows) with the correct `<repo>` name and owning user or organization.
-* Replace `<name>` with the workflow name (can be the same as `<repo>`).
-* Replace `<description>` with a description of what the workflow does.
-* The workflow will occur in the snakemake-workflow-catalog once it has been made public. Then the link under "Usage" will point to the usage instructions if `<owner>` and `<repo>` were correctly set.
+## 流程图示例
+![流程图](./dag.svg "流程图示例")
+## 流程环境
+``conda activate /public/home/weiyifan/miniforge3/envs/sk8``
+## 流程部署
+``snakedeploy deploy-workflow https://github.com/joyling93/sc10x_wf . --tag v1.1.1``
+## 配置信息
+config.yaml(config_space.yaml、config_multi为测试用例);
+samples.yaml
+## 流程运行
+``snakemake -c30 --use-conda --cache``

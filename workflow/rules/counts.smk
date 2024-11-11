@@ -34,7 +34,7 @@ else :
             bin=rules.get_cellranger.output.cr,
             genome=rules.get_reference.output.dir,
         output:
-            mtx=temp("results/counts/{sample}_cr/"),
+            mtx=temp(directory("results/counts/{sample}_cr/")),
         params:
             introns=convert_introns(),
             mem=config["counts"]["mem"],
