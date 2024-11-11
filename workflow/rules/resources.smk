@@ -4,7 +4,7 @@ rule get_cellranger:
     output:
         cr="resources/cellranger",
     params:
-        url=config["get_cellranger"][config["pipeline"]]["bin"],
+        url=config["get_cellranger"][config["pipeline"]].get("bin",""),
     log:
         "results/logs/get_cellranger/get_cellranger.log",
     shell:
