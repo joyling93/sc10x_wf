@@ -7,7 +7,7 @@
 ## 流程部署
 ``snakedeploy deploy-workflow https://github.com/joyling93/sc10x_wf . --tag v1.1.1``
 ## 配置信息
-config.yaml(config_space.yaml、config_multi为测试用例)
+config.yaml(config_space.yaml、config_multi为测试用例);
 samples.yaml
 ## 流程运行
 ``snakemake -c30 --use-conda --cache``

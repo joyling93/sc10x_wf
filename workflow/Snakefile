@@ -42,3 +42,9 @@ if config["pipeline"]=="multi":
             "results/singler/singler_results.csv",
             "results/ct",
             #"results/enrichment/singler/",
+
+rule rds2inte:
+    input:
+        "results/integration/integrated.rds",
+        "results/singler/singler_results.csv",
+        "results/enrichment/singler/"
