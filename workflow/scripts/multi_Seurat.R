@@ -17,10 +17,6 @@ source('/public/home/weiyifan/xzm/workshop/integration/utils_std.R')
 
 
 parser = ArgumentParser()
-#parser$add_argument("--path", help="/path/to/samples gene bar")
-#parser$add_argument("--compare", help="sample;sample;sample,using ; as the split")
-#parser$add_argument("--species", help="GRCh38 or mm10")
-#parser$add_argument("--outdir", help="outdir of project")
 parser$add_argument("--Nfeatures",help="nfeatures of FindVariableFeatures()", default='2000' )
 parser$add_argument("--prefix", help="prefix of results",default="")
 parser$add_argument("--resolution", help="resolution for cluster",default='0.6')

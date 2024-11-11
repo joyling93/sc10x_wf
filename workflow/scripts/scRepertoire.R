@@ -4,7 +4,6 @@ sink(log, type="message")
 
 suppressMessages(library(scRepertoire))
 
-#input <- paste0(snakemake@input[[1]],"per_sample_outs/",{snakemake@wildcards[["sample"]],"/vdj_b/filtered_contig_annotations.csv")
 input <- snakemake@input
 print(input)
 contig_list <- 
@@ -13,14 +12,19 @@ purrr::map(input,function(sample){
 })
 #分别有BCR和TCR，为避免cellbarcode重复加上 samples_ID 前缀，
 #本质是一个以samples_ID分组的list,把同一细胞的等位基因整合到一起
-# combined <- combineTCR(contig_list, 
-#                        samples = sample, 
-#                        ID = snakemake@params[["sample"]], cells =snakemake@params[["vdj_type"]])#T-GD for gamma-delta TCR
+if(snakemake@config["vdj_type"] == "BCR"){
+        combined <- combineBCR(contig_list, 
+                        samples = as.character(snakemake@params[["sample"]]),
+                        threshold = 0.85)
+}
+if(snakemake@config["vdj_type"] == "TCR"){
+        combined <- combineTCR(contig_list, 
+                        samples = as.character(snakemake@params[["sample"]])
+}
+
 print(as.character(snakemake@params[["sample"]]))
 #str(contig_list)
-combined <- combineBCR(contig_list, 
-                       samples = as.character(snakemake@params[["sample"]]),
-                        threshold = 0.85)
+
 
 print(snakemake@output[[1]])
 dir.create(snakemake@output[[1]])

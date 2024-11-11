@@ -1,0 +1,9 @@
+[gene-expression]
+reference,/public/home/weiyifan/xzm/code/sc10x_wf/resources/genome
+expect-cells,1000
+[vdj]
+reference,/public/home/weiyifan/xzm/ref/10x/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.1.0
+[libraries]
+fastq_id,fastqs,lanes,feature_types,subsample_rate
+sample-gex,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,gene expression,
+sample-vdj,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,vdj,

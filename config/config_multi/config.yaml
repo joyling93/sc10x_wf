@@ -1,22 +1,14 @@
-samples: "config/samples.yaml"
-# mus_musculus|homo_sapiens
-species: "mus_musculus" 
- # cellranger|spaceranger|multi
-pipeline: "spaceranger"
-# index类型,根据原始数据后缀修改
+samples: "config_multi/samples.yaml"
+species: "homo_sapiens"
+pipeline: "multi"
 fq_type:
   - "R1"
   - "R2"
-
-counts:
-  introns: False #定量时是否包含内含子
-  n_cells: 3000
-  mem: 190
-
+  - "I1"
+  - "I2"
 #仅在multi流程使用, TCR|BCR
-vdj_type:
+vdj_type: "BCR"
 
-#此行以下不用修改
 get_cellranger:
   cellranger: 
     bin: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/cellranger"
@@ -30,6 +22,11 @@ get_reference:
   homo_sapiens: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
   mus_musculus: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-mm10-2020-A/"
 
+counts:
+  introns: False
+  n_cells: 3000
+  mem: 190
+
 filter_empty:
   niters: 30000
 
@@ -42,4 +39,10 @@ dim_reduc:
   var_thresh: 0.75
 
 cluster:
-  res: 0.6
+  res: 0.5
+  markers:
+    - "YOUR"
+    - "FAVOURITE"
+    - "GENE"
+
+vdj_type: "TCR"

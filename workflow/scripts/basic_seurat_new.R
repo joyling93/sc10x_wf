@@ -3,8 +3,6 @@ sink(log)
 sink(log, type="message")
 
 scdir<-'/public/home/weiyifan/xzm/workshop'
-#scdir <- normalizePath(dirname(sub('--file=', '', args_[grep('--file', args_)])))
-#KEGG.DIR <- paste0(scdir, '/database/KEGG')
 source('/public/home/weiyifan/xzm/workshop/utilis.R')
 dims <- 15
 minpct <- 0.1
@@ -13,40 +11,12 @@ logfc<-'0.25'
 minumi <- 3
 mito <- NULL
 resolution <- NULL
-#args = args_[(which(args_=='--args')+1) : length(args_)]
-#parser <- ArgumentParser()
-# parser$add_argument("--indir", required = TRUE,
-#                     help = "Required. The directory '*_feature_bc_matrix'.")
-# parser$add_argument("--name", required = TRUE,
-#                     help = "Required. Sample name.")
-# parser$add_argument("--outdir", default = "./",
-#                     help = "The output directory [default %(default)s]")
-# parser$add_argument("--dims", default = 15,
-#                     help = "PCA dims to use [default %(default)s]")
-# parser$add_argument("--reduction", choices=c('tsne', 'umap'), default = 'tsne',
-#                     help = "reduction  [default %(default)s]")
-# parser$add_argument("--minpct", default = 0.1,
-#                     help = "min.pct  [default %(default)s]")
-# parser$add_argument("--species", default = 'rn6',
-#                     help = "species")
-# parser$add_argument("--logfc", default = 0.25,
-#                     help = "logfc.threshold [default %(default)s]")
-# Args <- parser$parse_args(args=args)
 suppressMessages({
     library(Seurat)
     library(tidyverse)
 })
-#source(paste0(scdir, '/utils.R'))
 
-# dir.create(Args$outdir, recursive=TRUE)
-# setwd(Args$outdir)
 
-#features.tsv.gz/genes.tsv
-# if(file.exists(paste0(Args$indir ,'/genes.tsv'))){
-#     id_map <- read_delim(paste0(Args$indir ,'/genes.tsv'), delim="\t",
-#                          col_names = c('Ensembl', 'Symbol')) %>% 
-#         mutate(Symbol_uniq=make.unique(Symbol))
-# }else{
 input_dir <- paste0(snakemake@input[[1]],"/outs/filtered_feature_bc_matrix/")
 if(snakemake@config[["pipeline"]]=="multi"){
     input_dir <- paste0(snakemake@input[[1]],
