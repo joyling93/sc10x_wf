@@ -8,10 +8,10 @@
     slide: 
     area: 
   sample2:
-    R1: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_B_1k_multi_5gex_b_fastqs/sc5p_v2_hs_B_1k_5gex_fastqs/sc5p_v2_hs_B_1k_5gex_S1_L002_R1_001.fastq.gz"
-    R2: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_B_1k_multi_5gex_b_fastqs/sc5p_v2_hs_B_1k_5gex_fastqs/sc5p_v2_hs_B_1k_5gex_S1_L002_R2_001.fastq.gz"
-    I1: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_B_1k_multi_5gex_b_fastqs/sc5p_v2_hs_B_1k_5gex_fastqs/sc5p_v2_hs_B_1k_5gex_S1_L002_I1_001.fastq.gz"
-    I2: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_B_1k_multi_5gex_b_fastqs/sc5p_v2_hs_B_1k_5gex_fastqs/sc5p_v2_hs_B_1k_5gex_S1_L002_I2_001.fastq.gz"
+    R1: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_T_1k_multi_5gex_t/sc5p_v2_hs_T_1k_5gex_fastqs/sc5p_v2_hs_T_1k_5gex_S1_L001_R1_001.fastq.gz"
+    R2: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_T_1k_multi_5gex_t/sc5p_v2_hs_T_1k_5gex_fastqs/sc5p_v2_hs_T_1k_5gex_S1_L001_R2_001.fastq.gz"
+    I1: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_T_1k_multi_5gex_t/sc5p_v2_hs_T_1k_5gex_fastqs/sc5p_v2_hs_T_1k_5gex_S1_L001_I1_001.fastq.gz"
+    I2: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sc5p_v2_hs_T_1k_multi_5gex_t/sc5p_v2_hs_T_1k_5gex_fastqs/sc5p_v2_hs_T_1k_5gex_S1_L001_I2_001.fastq.gz"
     image: 
     slide: 
     area: 
