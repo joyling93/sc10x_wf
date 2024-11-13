@@ -7,10 +7,13 @@ suppressMessages(library(KEGG.db))
 library(STRINGdb)
 #读取差异表达基因
 library(tidyverse)
-gene_list=read.table(snakemake@input[[1]],header = T)
-db<-snakemake@params[["db"]]
+
 outdir<-snakemake@output[[1]]
 dir.create(outdir,recursive = T)
+if(file.info(snakemake@input[[1]])$size==0){q(save='no')}
+
+gene_list=read.table(snakemake@input[[1]],header = T)
+db<-snakemake@params[["db"]]
 
 db<-
         switch(db,
