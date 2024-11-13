@@ -1,0 +1,7 @@
+"1":
+  sample1:
+    R1: "/public/home/weiyifan/xzm/proj/sbw/raw2/M-GSGC0412795/24h/24h_R1.fastq.gz"
+    R2: "/public/home/weiyifan/xzm/proj/sbw/raw2/M-GSGC0412795/24h/24h_R2.fastq.gz"
+    image: "/public/home/weiyifan/xzm/proj/sbw/raw2/M-GSGC0412795/24h/spatial/aligned_fiducials.jpg"
+    slide: "V13F13-353"
+    area: "D1"
