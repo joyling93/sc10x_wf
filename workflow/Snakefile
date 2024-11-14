@@ -5,7 +5,7 @@
 from snakemake.utils import validate
 
 
-configfile: "config/config.yaml"
+configfile: "config/config_templete/config_space.yaml"
 
 
 #container: "docker://condaforge/mambaforge:4.10.3-6"

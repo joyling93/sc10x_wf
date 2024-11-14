@@ -1,4 +1,4 @@
-samples: "config_multi/samples.yaml"
+samples: "config/config_templete/samples_multi.yaml"
 species: "homo_sapiens"
 pipeline: "multi"
 fq_type:

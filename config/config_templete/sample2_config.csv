@@ -5,5 +5,5 @@ expect-cells,1000
 reference,/public/home/weiyifan/xzm/ref/10x/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.1.0
 [libraries]
 fastq_id,fastqs,lanes,feature_types,subsample_rate
-sample2-gex,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,gene expression,
-sample2-vdj,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,vdj,
+sample2m-gex,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,gene expression,
+sample2m-vdj,/public/home/weiyifan/xzm/code/sc10x_wf/data,1,vdj,
