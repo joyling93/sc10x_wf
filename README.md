@@ -5,7 +5,7 @@
 ## 流程环境
 ``conda activate /public/home/weiyifan/miniforge3/envs/sk8``
 ## 流程部署
-``snakedeploy deploy-workflow https://github.com/joyling93/sc10x_wf . --tag v1.1.4``
+``snakedeploy deploy-workflow https://github.com/joyling93/sc10x_wf . --tag v1.1.5``
 ## 配置信息
 config.yaml(config_space.yaml、config_multi为测试用例);
 samples.yaml
