@@ -29,7 +29,7 @@ get_cellranger:
 
 
 get_reference:
-  homo_sapiens: "/public/ref/reference/cellranger/refdata-gex-GRCh38-2020-A/"
+  homo_sapiens: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-GRCh38-2020-A/"
   mus_musculus: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-mm10-2020-A/"
 
 filter_empty:
