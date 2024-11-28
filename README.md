@@ -7,7 +7,7 @@
 ## 流程部署
 ``snakedeploy deploy-workflow https://github.com/joyling93/sc10x_wf . --tag v1.1.6``
 ## 配置信息
-config.yaml(config_space.yaml、config_multi为测试用例);
+config.yaml(config_space.yaml、config_multi为测试用例);  
 samples.yaml
 ## 流程运行
 ``snakemake -c30 --use-conda --cache``
@@ -83,3 +83,21 @@ dim_reduc:
 
 cluster:  
   res: 0.6  
+
+# 输出结果说明
+## fastqc
+单独样本fastqc结果
+## counts
+单独样本的cellranger/cellspace运行结果
+## seurat
+单独样本表达矩阵转化为seurat对象后的结果，额外包含基本指控指标
+## integration
+所有样本CCA整合后的结果，integrated.rds为整合后的seurat对象
+## singler
+整合数据singler分析结果，仅限人和小鼠
+## enrichment
+整合数据singler分析后所有细胞类型的marker基因富集分析结果
+## benchmarkers
+流程运行的资源和时间消耗统计
+## logs
+流程运行日志
