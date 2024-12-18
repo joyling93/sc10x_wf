@@ -18,6 +18,7 @@ include: "rules/counts.smk"
 include: "rules/seurat.smk"
 include: "rules/singler.smk"
 include: "rules/vdj.smk"
+include: "rules/cpdb.smk"
 if config["pipeline"]=="cellranger":
     rule report:
         input:
@@ -25,7 +26,8 @@ if config["pipeline"]=="cellranger":
             expand("results/seurat/{sample}/{sample}_seurat.rds", sample=SAMPLES),
             "results/integration/integrated.rds",
             "results/singler/singler_results.csv",
-            "results/enrichment/singler/"
+            "results/enrichment/singler/",
+            "results/cpdb/res.rds"
 
 if config["pipeline"]=="spaceranger":
     rule report:
