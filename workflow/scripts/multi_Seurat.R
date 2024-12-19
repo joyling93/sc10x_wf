@@ -13,7 +13,7 @@ library(scales)
 library(cowplot)
 library(purrr)
 
-source('/public/home/weiyifan/xzm/workshop/integration/utils_std.R')
+source('/public/home/weiyifan/xzm/code/workshop/integration/utils_std.R')
 
 
 parser = ArgumentParser()

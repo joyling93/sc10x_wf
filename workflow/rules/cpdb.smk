@@ -3,10 +3,10 @@ rule cpdb:
         rds="results/integration/integrated.rds",
     output:
         "results/cpdb/res.rds",
-        "results/cpdb/matrix.mtx",
-        "results/cpdb/features.tsv",
-        "results/cpdb/barcodes.tsv",
-        "results/cpdb/meta.tsv",
+        temp("results/cpdb/matrix.mtx"),
+        temp("results/cpdb/features.tsv"),
+        temp("results/cpdb/barcodes.tsv"),
+        temp("results/cpdb/meta.tsv"),
     log:
         "results/logs/cpdb.log",
     benchmark:
@@ -14,6 +14,8 @@ rule cpdb:
     priority:
         1,
     conda:
-        "/public/home/weiyifan/miniforge3/envs/cpdb",
+        "seurat4",
+    threads:
+        10,
     script:
         "../scripts/cpdb.R"

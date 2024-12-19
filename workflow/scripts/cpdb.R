@@ -1,6 +1,5 @@
-library(SingleR)
-library(Seurat)
-library(tidyverse)
+#library(Seurat)
+#library(tidyverse)
 library(reticulate)
 obj <- readRDS(snakemake@input[[1]])
 outdir <- dirname(snakemake@output[[1]])
@@ -23,12 +22,13 @@ use_condaenv("/public/home/weiyifan/miniforge3/envs/cpdb")
 cpdb<-import("cellphonedb.src.core.methods")
 
 res<-cpdb$cpdb_statistical_analysis_method$call(
-        cpdb_file_path = db,
+        cpdb_file_path = "/public/home/weiyifan/xzm/code/workshop/cellphonedb/v2/v5.0.0/cellphonedb.zip",
         meta_file_path = "./results/cpdb/meta.tsv",
         counts_file_path = "./results/cpdb/",
         counts_data = 'hgnc_symbol',
         score_interactions = TRUE,
         threshold = 0.1,
+        threads = as.integer(snakemake@threads),
         output_path = outdir
 )
 
