@@ -1,3 +1,7 @@
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log)
+sink(log, type="message")
+
 library(SingleR)
 library(Seurat)
 library(tidyverse)

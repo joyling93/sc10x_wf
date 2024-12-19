@@ -1,3 +1,7 @@
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log)
+sink(log, type="message")
+
 suppressMessages(library(clusterProfiler))
 suppressMessages(library(org.Hs.eg.db))
 suppressMessages(library(org.Mm.eg.db))

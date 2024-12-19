@@ -1,5 +1,7 @@
-#library(Seurat)
-#library(tidyverse)
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log)
+sink(log, type="message")
+
 library(reticulate)
 obj <- readRDS(snakemake@input[[1]])
 outdir <- dirname(snakemake@output[[1]])
