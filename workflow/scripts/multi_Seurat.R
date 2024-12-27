@@ -124,11 +124,14 @@ p3 <- DimPlot(obj.integrated, reduction = "tsne", group.by = "stim")
 p4 <- DimPlot(obj.integrated, reduction = "tsne", label = TRUE, repel = TRUE)
 
 ggsave(paste0(outdir,'/Anchors/',prefix,'_clusters_UMAP.pdf'),p2)
+ggsave(paste0(outdir,'/Anchors/',prefix,'_clusters_UMAP.png'),p2)
 ggsave(paste0(outdir,'/Anchors/',prefix,'_sample_UMAP.pdf'),p1)
+ggsave(paste0(outdir,'/Anchors/',prefix,'_sample_UMAP.png'),p1)
 
 ggsave(paste0(outdir,'/Anchors/',prefix,'_clusters_tSNE.pdf'),p4)
+ggsave(paste0(outdir,'/Anchors/',prefix,'_clusters_tSNE.png'),p4)
 ggsave(paste0(outdir,'/Anchors/',prefix,'_sample_tSNE.pdf'),p3)
-
+ggsave(paste0(outdir,'/Anchors/',prefix,'_sample_tSNE.png'),p3)
 
 
 ## 写出细胞纬度坐标

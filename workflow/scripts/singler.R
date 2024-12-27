@@ -31,7 +31,7 @@ correct_celltype <- tibble(
 obj@meta.data['singler'] <- left_join(obj[['seurat_clusters']],correct_celltype)$singler
 
 DimPlot(obj, label=TRUE, group.by = 'singler',reduction = 'umap')
-
+ggsave(file.path(outdir,'singler_umap.png'))
 
 Idents(obj) <- 'singler'
 obj.markers <- FindAllMarkers(obj, logfc.threshold=0.25, min.pct=0.1) 
