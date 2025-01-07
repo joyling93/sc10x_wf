@@ -2,8 +2,8 @@ log <- file(snakemake@log[[1]], open = "wt")
 sink(log)
 sink(log, type="message")
 
-scdir<-'/public/home/weiyifan/xzm/code/workshop'
-source('/public/home/weiyifan/xzm/code/workshop/utilis.R')
+scdir<-'/public/home/xiezhuoming/xzm/code/workshop'
+source('/public/home/xiezhuoming/xzm/code/workshop/utilis.R')
 dims <- 15
 minpct <- 0.1
 species <- snakemake@params[["db"]]

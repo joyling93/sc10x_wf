@@ -11,6 +11,6 @@ rule clone_typing:
         sample=SAMPLES,
         vdj_type=config["vdj_type"],
     conda:
-        "/public/home/weiyifan/miniforge3/envs/scRepertoire",
+        "scRepertoire",
     script:
         "../scripts/scRepertoire.R"

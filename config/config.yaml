@@ -21,16 +21,19 @@ vdj_type:
 #此行以下不用修改
 get_cellranger:
   cellranger: 
-    bin: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/cellranger"
+    bin: "/public/home/xiezhuoming/xzm/soft/cellranger-7.2.0/cellranger"
+    rmd: "/public/home/xiezhuoming/xzm/ref/rmd_templete/sc10x/"
   spaceranger: 
-    bin: "/public/home/weiyifan/xzm/soft/spaceranger-3.1.1/spaceranger"
+    bin: "/public/home/xiezhuoming/xzm/soft/spaceranger-3.1.1/spaceranger"
+    rmd: "/public/home/xiezhuoming/xzm/ref/rmd_templete/sc10x/"
   multi:
-    bin: "/public/home/weiyifan/xzm/soft/cellranger-7.2.0/cellranger"
+    bin: "/public/home/xiezhuoming/xzm/soft/cellranger-7.2.0/cellranger"
+    rmd: "/public/home/xiezhuoming/xzm/ref/rmd_templete/sc10x/"
 
 
 get_reference:
-  homo_sapiens: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-GRCh38-2020-A/"
-  mus_musculus: "/public/home/weiyifan/xzm/ref/10x/refdata-gex-mm10-2020-A/"
+  homo_sapiens: "/public/home/xiezhuoming/xzm/ref/10x/refdata-gex-GRCh38-2020-A/"
+  mus_musculus: "/public/home/xiezhuoming/xzm/ref/10x/refdata-gex-mm10-2020-A/"
 
 filter_empty:
   niters: 30000

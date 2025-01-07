@@ -8,8 +8,8 @@ library(tidyverse)
 obj <- readRDS(snakemake@input[[1]])
 outdir <- snakemake@output[[1]]
 rd<-switch(snakemake@config[["species"]],
-       homo_sapiens = "/repository/Test/scRNA_mj/SingleR_database/HumanPrimaryCellAtlas_hpca.se_human.RData",
-       mus_musculus = "/repository/Test/scRNA_mj/SingleR_database/MouseRNAseqData.Rdata"
+       homo_sapiens = "/public/home/xiezhuoming/xzm/ref/SingleR_database/HumanPrimaryCellAtlas_hpca.se_human.RData",
+       mus_musculus = "/public/home/xiezhuoming/xzm/ref/SingleR_database/MouseRNAseqData.Rdata"
 )
 hpca.se <- get(load(rd))
 
@@ -17,7 +17,7 @@ hpca.se <- get(load(rd))
 Seurat_Object_Diet <- DietSeurat(obj, graphs = "pca")
 SCE <- as.SingleCellExperiment(Seurat_Object_Diet)
 
-pred.hesc <- SingleR(SCE, hpca.se,  labels=hpca.se$label.main, clusters=obj$seurat_clusters)
+pred.hesc <- SingleR(SCE, hpca.se,  labels=hpca.se$label.fine, clusters=obj$seurat_clusters)
 
 #写出注释结果
 write.csv(pred.hesc,file.path(outdir,'singler_results.csv'))

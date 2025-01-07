@@ -10,7 +10,7 @@ rule singler:
     benchmark:
         "results/benchmarks/singler.txt",
     conda:
-        "/public/home/weiyifan/miniforge3/envs/singler",
+        "singler",
     script:
         "../scripts/singler.R"
 
@@ -23,8 +23,8 @@ rule enrichment:
     params:
         db=config["species"],
     conda:
-        "/public/home/weiyifan/miniforge3/envs/enrichment"
+        "enrichment"
     log:
-        "logs/enrich/enrich.log",
+        "results/logs/enrich/enrich.log",
     script:
         "../scripts/enrich.R"

@@ -19,6 +19,8 @@ include: "rules/seurat.smk"
 include: "rules/singler.smk"
 include: "rules/vdj.smk"
 include: "rules/cpdb.smk"
+include: "rules/monocle.smk"
+include: "rules/report.smk"
 if config["pipeline"]=="cellranger":
     rule report:
         input:
@@ -27,7 +29,9 @@ if config["pipeline"]=="cellranger":
             "results/integration/integrated.rds",
             "results/singler/singler_results.csv",
             "results/enrichment/singler/",
-            "results/cpdb/res.rds"
+            "results/cpdb/res.rds",
+            "results/monocle/cell_trajectory_stat.png",
+            "results/report.html",
 
 if config["pipeline"]=="spaceranger":
     rule report:

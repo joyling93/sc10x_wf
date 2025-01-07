@@ -38,3 +38,14 @@ rule clean_names:
         """
         ln -s {input} {output} &> {log}
         """
+
+
+rule get_template:
+    output:
+        dir=directory("resources/template"),
+    params:
+        rmd=config["get_cellranger"][config["pipeline"]]["rmd"],
+    shell:
+        """
+            cp -r "{params.rmd}" resources/template
+        """

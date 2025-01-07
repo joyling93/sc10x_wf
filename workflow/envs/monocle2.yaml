@@ -1,0 +1,9 @@
+name: monocle2
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - conda-forge::r-seuratobject=5.0.2
+  - r-argparse=2.2.5
+  - bioconda::bioconductor-monocle=2.34.0

@@ -1,7 +1,7 @@
 "1":
   samplesp:
-    R1: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sp_R1.fastq.gz"
-    R2: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sp_R2.fastq.gz"
-    image: "/public/home/weiyifan/xzm/code/sc10x_wf/rawdata/sp.jpg"
+    R1: "/public/home/xiezhuoming/xzm/code/sc10x_wf/rawdata/sp_R1.fastq.gz"
+    R2: "/public/home/xiezhuoming/xzm/code/sc10x_wf/rawdata/sp_R2.fastq.gz"
+    image: "/public/home/xiezhuoming/xzm/code/sc10x_wf/rawdata/sp.jpg"
     slide: "V13F13-353"
     area: "D1"

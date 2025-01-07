@@ -8,7 +8,7 @@ rule seurat:
     benchmark:
         "results/benchmarks/seurat/{sample}.txt",
     conda:
-        "/public/home/weiyifan/miniforge3/envs/seurat4",
+        "seurat4",
     params:
         db=config["species"],
     script:
@@ -24,6 +24,6 @@ rule integration:
     benchmark:
         "results/benchmarks/integration/integration.txt",
     conda:
-        "/public/home/weiyifan/miniforge3/envs/sc_integration",
+        "seurat4",
     script:
         "../scripts/multi_Seurat.R"
