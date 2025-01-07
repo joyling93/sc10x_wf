@@ -4,7 +4,7 @@ rule rmd_report:
         #integration=rules.integration.output,
         #singler=rules.singler.output,
         rules.enrichment.output,
-        rules.cpdb.output[0],
+        #rules.cpdb.output[0],
         rules.monocle.output,
     output:
         "results/report.html",
