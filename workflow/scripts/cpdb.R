@@ -22,8 +22,8 @@ write.table(df, file = file.path(outdir, "meta.tsv"), sep = "\t", quote = F, row
 #use_condaenv("/public/home/xiezhuoming/miniforge3/envs/cpdb")
 use_python('/public/home/xiezhuoming/miniforge3/envs/seurat4/bin/python')
 cpdb<-import("cellphonedb.src.core.methods")
-
-res<-cpdb$cpdb_statistical_analysis_method$call(
+if(snakemake@config[["species"]]=="homo_sapiens"){
+        res<-cpdb$cpdb_statistical_analysis_method$call(
         cpdb_file_path = "/public/home/xiezhuoming/xzm/code/workshop/cellphonedb/v2/v5.0.0/cellphonedb.zip",
         meta_file_path = "./results/cpdb/meta.tsv",
         counts_file_path = "./results/cpdb/",
@@ -33,5 +33,8 @@ res<-cpdb$cpdb_statistical_analysis_method$call(
         threads = as.integer(snakemake@threads),
         output_path = outdir
 )
+}else{
+        res<-NULL
+}
 
 saveRDS(res, file = snakemake@output[[1]])

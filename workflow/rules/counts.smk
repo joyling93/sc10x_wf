@@ -41,6 +41,8 @@ else :
             sp_extra=convert_sp_extra,
         log:
             "results/logs/counts/{sample}.log",
+        resources:
+            mem_mb=100000
         benchmark:
             "results/benchmarks/counts/{sample}.txt"
         threads: 16

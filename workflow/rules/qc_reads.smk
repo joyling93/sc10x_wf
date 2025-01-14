@@ -6,6 +6,8 @@ rule fastqc:
         zip="results/fastqc/{lane}_{sample}_{read}_fastqc.zip",
     log:
         "results/logs/fastqc/{lane}_{sample}_{read}.log",
+    group:
+        "qc",
     benchmark:
         "results/benchmarks/fastqc/{lane}_{sample}_{read}.txt"
     threads: 5
