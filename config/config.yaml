@@ -13,7 +13,7 @@ fq_type:
 counts:
   introns: False
   n_cells: 3000
-  mem: 190
+  mem: 100
 
 #仅在multi流程使用, TCR|BCR
 vdj_type:
