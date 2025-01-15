@@ -11,7 +11,7 @@ fq_type:
   - "I2"
 
 counts:
-  introns: False #定量时是否包含内含子
+  introns: False
   n_cells: 3000
   mem: 190
 
