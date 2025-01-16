@@ -66,9 +66,9 @@ def convert_introns():
     This function handles the conversion.
     """
     if config["counts"]["introns"]:
-        return "--include-introns"
+        return "--include-introns true"
     else:
-        return ""
+        return "--include-introns false"
 
 def convert_sp_extra(wildcards):
     """Specify whether introns should be counted

@@ -16,7 +16,7 @@ outdir<-snakemake@output[[1]]
 dir.create(outdir,recursive = T)
 if(file.info(snakemake@input[[1]])$size==0){q(save='no')}
 
-gene_list=read.table(snakemake@input[[1]],header = T)
+gene_list=read.table(snakemake@input[[1]],header = T,sep='\t')
 db<-snakemake@params[["db"]]
 
 db<-
