@@ -32,7 +32,7 @@ eg <- bitr(gene_list$gene, fromType="SYMBOL", toType="ENTREZID", OrgDb=db[1])
 gene_list <- gene_list%>%left_join(eg,by=join_by(gene==SYMBOL))%>%drop_na()
 #geneList<-eg$ENTREZID
 
-enrich_ora<- function(gl,db,out_dir,use_internal_data=F){
+enrich_ora<- function(gl,db,out_dir,use_internal_data=T){
                 dir.create(out_dir,recursive = T)
                 #gl<-gl[[1]]
                 #saveRDS(gl,'test.rds')
@@ -185,7 +185,7 @@ enrich_gsea<-function(gl,db,out_dir){
                 minGSSize    = 120,
                 pvalueCutoff = 0.05,
                 verbose      = FALSE,
-                use_internal_data = F
+                use_internal_data = T
                 )
 
         write.csv(kk,file.path(outdir,'kegg_gsea.csv'))
