@@ -21,7 +21,7 @@ rds <- snakemake@input$rds
 clus<- snakemake@input$meta
 sample<- "integration"
 outdir<- dirname(snakemake@output[[1]])
-ordering_gene_pattern <- "dispersion"
+ordering_gene_pattern <- "differential"
 num_paths <- "NULL"
 
 dir.create(outdir,recursive =T)
