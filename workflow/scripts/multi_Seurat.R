@@ -87,7 +87,7 @@ for (fp in snakemake@input[["rds"]]){
         colnames(pbmc@assays$RNA@counts) <- paste0(colnames(pbmc@assays$RNA@counts),'-',numsap)
         }
 	ob <- CreateSeuratObject(counts =pbmc@assays$RNA@counts,project =each,min.cells = min_cells)
-	ob <- subset(ob,subset = nCount_RNA>500 & nFeature_RNA > 800 & nFeature_RNA <6000)
+	ob <- subset(ob,subset = nCount_RNA>1000 & nFeature_RNA > 300 & nFeature_RNA <6000)
 	ob$stim <-each
 	#对于不平行的数据容易报错
 	#if(c('scrublet.pred')%in%colnames(pbmc@meta.data)){
